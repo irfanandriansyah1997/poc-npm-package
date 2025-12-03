@@ -1,5 +1,22 @@
 # @irfanandriansyah1997/compiler
 
+## 2.0.2
+
+### Patch Changes
+
+- ### 🔧 Chores
+  - **semver**: bump version (#7)
+  - **release**: adding release note when success create github tag
+  - **semver**: bump version (#6)
+  - **cd**: adjust final type coming from breakdown the commit list
+  - **semver**: bump version (#5)
+  - **cd**: remove package manager
+  - **cd**: set different github PAT for merge and release
+  - **cd**: adding type arg and github action for release the npm package
+
+  ### 🐛 Bug Fixes
+  - **cd**: adjust github pat name
+
 ## 2.0.1
 
 ### Patch Changes
