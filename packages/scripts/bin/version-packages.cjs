@@ -13,7 +13,7 @@ const path = require("path");
  *
  * This script will:
  * 1. Run `changeset version` to bump versions
- * 2. Read updated package.json files to get new versions
+ * 2. Commit changes with message "chore(semver): bump version"
  * 3. Create git tags for each updated package
  * 4. Optionally push tags to remote
  */
@@ -103,6 +103,38 @@ const runChangesetVersion = (workspaceRoot) => {
   }
 };
 
+const commitVersionBump = (workspaceRoot, updatedPackages) => {
+  console.log("\n📝 Committing version changes...\n");
+
+  try {
+    // Stage all changes
+    execSync("git add -A", {
+      cwd: workspaceRoot,
+      stdio: "pipe",
+    });
+
+    // Create commit with the specified message
+    const packageNames = updatedPackages.map((p) => p.name).join(", ");
+    const commitMessage = "chore(semver): bump version";
+
+    execSync(`git commit -m "${commitMessage}"`, {
+      cwd: workspaceRoot,
+      stdio: "pipe",
+    });
+
+    console.log(`✅ Committed: "${commitMessage}"`);
+    return true;
+  } catch (error) {
+    // Check if there's nothing to commit
+    if (error.message.includes("nothing to commit")) {
+      console.log("⚠️  Nothing to commit");
+      return true;
+    }
+    console.error("❌ Failed to commit:", error.message);
+    return false;
+  }
+};
+
 const createGitTags = (updatedPackages, workspaceRoot) => {
   const tags = [];
 
@@ -160,6 +192,22 @@ const pushTags = (tags, workspaceRoot) => {
   });
 };
 
+const pushMainBranch = (workspaceRoot) => {
+  console.log("\n📤 Pushing to main branch (force)...\n");
+
+  try {
+    execSync("git push origin main --force", {
+      cwd: workspaceRoot,
+      stdio: "inherit",
+    });
+    console.log("✅ Pushed to main branch");
+    return true;
+  } catch {
+    console.error("❌ Failed to push to main branch");
+    return false;
+  }
+};
+
 const main = () => {
   const { push } = parseArgs();
   const workspaceRoot = findWorkspaceRoot();
@@ -201,15 +249,23 @@ const main = () => {
     console.log(`   ${name}: ${oldVersion} → ${newVersion}`);
   });
 
+  // Commit the version bump
+  const committed = commitVersionBump(workspaceRoot, updatedPackages);
+  if (!committed) {
+    process.exit(1);
+  }
+
   // Create git tags
   console.log("\n🏷️  Creating git tags...\n");
   const tags = createGitTags(updatedPackages, workspaceRoot);
 
-  // Push tags if requested
+  // Push tags and main branch if requested
   if (push && tags.length > 0) {
     pushTags(tags, workspaceRoot);
+    pushMainBranch(workspaceRoot);
   } else if (tags.length > 0) {
-    console.log("\n💡 To push tags, run: git push origin --tags");
+    console.log("\n💡 To push tags and main branch, run:");
+    console.log("   git push origin --tags && git push origin main --force");
     console.log("   Or use: pkg-version --push");
   }
 
@@ -217,4 +273,3 @@ const main = () => {
 };
 
 main();
-
