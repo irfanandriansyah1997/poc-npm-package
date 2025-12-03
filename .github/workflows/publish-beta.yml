@@ -9,6 +9,7 @@ permissions:
   pull-requests: write
   issues: write
   packages: write
+  statuses: write
 
 jobs:
   publish-beta:
@@ -80,6 +81,37 @@ jobs:
               comment_id: context.payload.comment.id,
               content: 'rocket'
             });
+
+      - name: Create commit status (in progress)
+        id: check_run
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            const packageName = '${{ steps.parse.outputs.package_name }}';
+            const prNumber = '${{ steps.pr.outputs.pr_number }}';
+            const branchName = '${{ steps.pr.outputs.branch_name }}';
+            
+            // Get PR head SHA
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            // Use Commit Status API (works with classic PAT)
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: pr.head.sha,
+              state: 'pending',
+              context: `Publish Beta: ${packageName}`,
+              description: '⏳ Building and publishing beta package...',
+              target_url: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+            });
+            
+            console.log(`✅ Created commit status for ${pr.head.sha}`);
+            core.setOutput('head_sha', pr.head.sha);
 
       - name: Sanitize branch name
         id: sanitize
@@ -305,12 +337,6 @@ jobs:
             pnpm add ${packageName}@${betaVersion}
             \`\`\`
 
-            Or using the beta tag:
-
-            \`\`\`bash
-            pnpm add ${packageName}@beta
-            \`\`\`
-
             ✅ Successfully published beta to GitHub Packages!`;
             
             await github.rest.issues.createComment({
@@ -333,6 +359,28 @@ jobs:
               content: '+1'
             });
 
+      - name: Update commit status (success)
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            const headSha = '${{ steps.check_run.outputs.head_sha }}';
+            const packageName = '${{ steps.parse.outputs.package_name }}';
+            const betaVersion = '${{ steps.version.outputs.BETA_VERSION }}';
+            
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: headSha,
+              state: 'success',
+              context: `Publish Beta: ${packageName}`,
+              description: `✅ Published ${betaVersion}`,
+              target_url: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+            });
+            
+            console.log('✅ Commit status updated to success');
+
       - name: Add failure reaction
         if: failure()
         uses: actions/github-script@v7
@@ -352,6 +400,29 @@ jobs:
               issue_number: context.issue.number,
               body: '❌ Failed to publish beta package. Please check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}).'
             });
+
+      - name: Update commit status (failure)
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            const headSha = '${{ steps.check_run.outputs.head_sha }}';
+            const packageName = '${{ steps.parse.outputs.package_name }}';
+            
+            if (headSha) {
+              await github.rest.repos.createCommitStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                sha: headSha,
+                state: 'failure',
+                context: `Publish Beta: ${packageName}`,
+                description: '❌ Failed to publish beta package',
+                target_url: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+              });
+              
+              console.log('❌ Commit status updated to failure');
+            }
 
       - name: Summary
         run: |
