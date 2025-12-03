@@ -1,5 +1,15 @@
 # @irfanandriansyah1997/compiler
 
+## 4.0.0
+
+### Major Changes
+
+- ### 🔧 Chores
+  - **semver**: bump version (#16)
+
+  ### 🐛 Bug Fixes
+  - **script**: adjust logic while get latest tags
+
 ## 3.1.0
 
 ### Minor Changes
