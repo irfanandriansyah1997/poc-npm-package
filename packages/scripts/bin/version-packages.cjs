@@ -110,9 +110,10 @@ const runChangesetVersion = (workspaceRoot) => {
 };
 
 const configureGitBot = (workspaceRoot) => {
-  // Configure git to use GitHub Actions bot
-  const botName = "github-actions[bot]";
-  const botEmail = "github-actions[bot]@users.noreply.github.com";
+  // Configure git to use bot from environment variables or fallback to GitHub Actions bot
+  const botName = process.env.GH_BOT_NAME || "github-actions[bot]";
+  const botEmail =
+    process.env.GH_BOT_EMAIL || "github-actions[bot]@users.noreply.github.com";
 
   try {
     execSync(`git config user.name "${botName}"`, {

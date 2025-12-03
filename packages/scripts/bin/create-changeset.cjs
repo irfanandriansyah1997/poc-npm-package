@@ -5,7 +5,7 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 /**
- * Creates a changeset file for specified packages
+ * Creates a changeset file for specified package
  *
  * Usage:
  *   pkg-create-changeset --package="@irfanandriansyah1997/compiler" --type="minor" --message="Add new feature"

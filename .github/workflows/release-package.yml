@@ -1,0 +1,72 @@
+name: Release Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package name to release (e.g., @irfanandriansyah1997/compiler)'
+        required: true
+        type: string
+      type:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        default: 'minor'
+        options:
+          - patch
+          - minor
+          - major
+
+env:
+  # GitHub PAT from bot account
+  GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+  GH_BOT_NAME: ${{ vars.GH_BOT_NAME }}
+  GH_BOT_EMAIL: ${{ vars.GH_BOT_EMAIL }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ env.GH_BOT_TOKEN }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure Git Bot
+        run: |
+          git config user.name "${{ env.GH_BOT_NAME }}"
+          git config user.email "${{ env.GH_BOT_EMAIL }}"
+
+      - name: Run Release
+        run: pnpm release -p "${{ inputs.package }}" --type "${{ inputs.type }}"
+        env:
+          GITHUB_TOKEN: ${{ env.GH_BOT_TOKEN }}
+          GH_BOT_NAME: ${{ env.GH_BOT_NAME }}
+          GH_BOT_EMAIL: ${{ env.GH_BOT_EMAIL }}
+
+      - name: Summary
+        run: |
+          echo "## 🚀 Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** ${{ inputs.package }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Type:** ${{ inputs.type }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "A PR has been created with the version bump." >> $GITHUB_STEP_SUMMARY
+          echo "Once merged, run the publish workflow to publish to npm." >> $GITHUB_STEP_SUMMARY
+

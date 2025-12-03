@@ -4,13 +4,14 @@ on:
   pull_request:
     types: [labeled, opened, synchronize, reopened]
 
+env:
+  # GitHub PAT from bot account
+  GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+
 jobs:
   merge-pr-package:
     if: contains(github.event.pull_request.labels.*.name, 'bump-version')
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout
@@ -19,11 +20,11 @@ jobs:
       - name: Auto Approve PR
         uses: hmarr/auto-approve-action@v4
         with:
-          github-token: ${{ secrets.AUTH_TOKEN }}
+          github-token: ${{ env.GH_BOT_TOKEN }}
 
       - name: Force Merge PR
         run: gh pr merge "$PR_NUMBER" --squash --admin
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ env.GH_BOT_TOKEN }}
 

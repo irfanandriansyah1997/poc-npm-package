@@ -11,17 +11,21 @@ const readline = require("readline");
  * Usage:
  *   pkg-release --package="@irfanandriansyah1997/compiler"
  *   pkg-release -p "@irfanandriansyah1997/compiler"
- *   pkg-release -p "@irfanandriansyah1997/compiler,@irfanandriansyah1997/scripts"
+ *   pkg-release -p "@irfanandriansyah1997/compiler" --type minor
+ *   pkg-release -p "@irfanandriansyah1997/compiler,@irfanandriansyah1997/scripts" -t patch
  *
  * Options:
  *   --package, -p   Package name(s), comma-separated for multiple packages (required)
- *   --skip-push     Skip creating branch and PR (local changes only)
+ *   --type, -t      Version bump type: major, minor, patch (default: minor)
  */
+
+const VALID_TYPES = ["major", "minor", "patch"];
 
 const parseArgs = () => {
   const args = process.argv.slice(2);
   const result = {
     packages: [],
+    type: "minor", // Default to minor
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -34,6 +38,10 @@ const parseArgs = () => {
         .map((p) => p.trim());
     } else if (arg === "--package" || arg === "-p") {
       result.packages = args[++i].split(",").map((p) => p.trim());
+    } else if (arg.startsWith("--type=") || arg.startsWith("-t=")) {
+      result.type = arg.split("=")[1].toLowerCase();
+    } else if (arg === "--type" || arg === "-t") {
+      result.type = args[++i].toLowerCase();
     }
   }
 
@@ -72,7 +80,7 @@ const runCommand = (command, options = {}) => {
 };
 
 const main = async () => {
-  const { packages, skipPush } = parseArgs();
+  const { packages, type } = parseArgs();
 
   if (packages.length === 0) {
     console.error(
@@ -81,6 +89,15 @@ const main = async () => {
     console.error(
       '   Example: pkg-release -p "@irfanandriansyah1997/compiler"'
     );
+    console.error(
+      '   Example: pkg-release -p "@irfanandriansyah1997/compiler" --type minor'
+    );
+    process.exit(1);
+  }
+
+  if (!VALID_TYPES.includes(type)) {
+    console.error(`❌ Invalid type: ${type}`);
+    console.error(`   Valid types: ${VALID_TYPES.join(", ")}`);
     process.exit(1);
   }
 
@@ -89,6 +106,7 @@ const main = async () => {
 
   console.log("\n🚀 Starting release workflow...\n");
   console.log(`   Packages: ${packages.join(", ")}`);
+  console.log(`   Type: ${type}`);
   console.log(`   Workspace: ${workspaceRoot}`);
 
   // Step 1: Create changeset from commits
@@ -96,7 +114,7 @@ const main = async () => {
   console.log("📝 Step 1: Creating changeset from git commits");
   console.log("=".repeat(60));
 
-  const changesetCmd = `pkg-create-changeset -p "${packageList}" --from-commits`;
+  const changesetCmd = `pkg-create-changeset -p "${packageList}" --type "${type}" --from-commits`;
   if (!runCommand(changesetCmd, { showOutput: false })) {
     console.error("\n❌ Failed to create changeset");
     process.exit(1);
@@ -120,15 +138,16 @@ const main = async () => {
   console.log("=".repeat(60));
 
   console.log("\n📋 Summary:");
-  console.log("   ✓ Created changeset from git commits");
+  console.log(`   ✓ Created ${type} changeset from git commits`);
   console.log("   ✓ Bumped package versions");
   console.log("   ✓ Updated CHANGELOG.md");
   console.log("   ✓ Commit the bump version");
   console.log("   ✓ Created git tags");
+  console.log("   ✓ Created PR with bump-version label");
 
-  console.log("\n💡 Changes were not pushed. Run:");
-  console.log("   pkg-version --push");
-  console.log("\n🎉 Next step: Run 'pnpm release:publish' to publish to npm\n");
+  console.log(
+    "\n🎉 Next step: Merge the PR, then run 'pnpm release:publish' to publish to npm\n"
+  );
 };
 
 main().catch((error) => {
