@@ -192,8 +192,7 @@ const createParserOptionsConfig = ({ tsconfigPath }) => {
         parserOptions: {
           ecmaVersion: 'latest',
           project: [tsconfigPath],
-          sourceType: 'module',
-          tsconfigRootDir: '.'
+          sourceType: 'module'
         }
       }
     }

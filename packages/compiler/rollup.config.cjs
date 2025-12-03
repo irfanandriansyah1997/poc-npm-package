@@ -1,13 +1,14 @@
-import commonjs from "@rollup/plugin-commonjs";
-import swc from "@rollup/plugin-swc";
-import typescript from "@rollup/plugin-typescript";
-import fs from "fs";
-import path from "path";
-import copy from "rollup-plugin-copy-glob";
+import commonjs from '@rollup/plugin-commonjs';
+import swc from '@rollup/plugin-swc';
+import terser from '@rollup/plugin-terser';
+import typescript from '@rollup/plugin-typescript';
+import fs from 'fs';
+import path from 'path';
+import copy from 'rollup-plugin-copy-glob';
 
-const inputDir = "src";
-const outputDir = "dist";
-const baseDir = path.resolve(__dirname, "./");
+const inputDir = 'src';
+const outputDir = 'dist';
+const baseDir = path.resolve(__dirname, './');
 
 /////////////////////////////////////////////////////////////////////////////
 // Generate swc configuration
@@ -29,33 +30,29 @@ const generateSWCConfig = (format) => {
   let swcConfig = {};
 
   try {
-    const swcConfigPath = path.resolve(__dirname, ".swcrc");
-    swcConfig = JSON.parse(fs.readFileSync(swcConfigPath, "utf-8"));
+    const swcConfigPath = path.resolve(__dirname, '.swcrc');
+    swcConfig = JSON.parse(fs.readFileSync(swcConfigPath, 'utf-8'));
   } catch {
     swcConfig = {
       jsc: {
-        transform: {
-          react: {
-            runtime: "automatic",
-          },
-        },
-      },
+        transform: { react: { runtime: 'automatic' } }
+      }
     };
   }
 
-  let moduleType = "es6";
-  if (format === "cjs") moduleType = "commonjs";
+  let moduleType = 'es6';
+  if (format === 'cjs') moduleType = 'commonjs';
 
   return {
     ...swcConfig,
     jsc: {
       ...swcConfig.jsc,
-      baseUrl: baseDir,
+      baseUrl: baseDir
     },
     module: {
-      type: moduleType,
+      type: moduleType
     },
-    sourceMaps: false,
+    sourceMaps: false
   };
 };
 
@@ -78,7 +75,7 @@ const getFiles = (dir, files = []) => {
 
     if (fs.statSync(fullPath).isDirectory()) {
       getFiles(fullPath, files);
-    } else if (fullPath.endsWith(".ts") || fullPath.endsWith(".tsx")) {
+    } else if (fullPath.endsWith('.ts') || fullPath.endsWith('.tsx')) {
       files.push(fullPath);
     }
   });
@@ -96,15 +93,15 @@ const collectEntryFiles = () => {
 
   return inputFiles.reduce((acc, file) => {
     const entry = path.relative(inputDir, file);
-    const name = entry.replace(/\.[^/.]+$/, ""); // Remove file extension
+    const name = entry.replace(/\.[^/.]+$/, ''); // Remove file extension
 
     // Ignore files you want to exclude
     if (
-      !entry.includes(".test.") &&
-      !entry.includes("stories") &&
-      !entry.includes(".d.") &&
-      !entry.includes("storybook") &&
-      !entry.includes("setup-test")
+      !entry.includes('.test.') &&
+      !entry.includes('stories') &&
+      !entry.includes('.d.') &&
+      !entry.includes('storybook') &&
+      !entry.includes('setup-test')
     ) {
       acc[name] = path.join(inputDir, entry);
     }
@@ -118,33 +115,47 @@ export default {
   output: [
     {
       dir: outputDir,
-      entryFileNames: "[name].esm.js",
-      format: "es",
-      plugins: [swc(generateSWCConfig("es6"))],
-      sourcemap: true,
+      entryFileNames: '[name].esm.js',
+      format: 'es',
+      plugins: [
+        swc(generateSWCConfig('es6')),
+        terser({
+          compress: { dead_code: true, unused: true },
+          mangle: true,
+          format: { comments: false }
+        })
+      ],
+      sourcemap: true
     },
     {
       dir: outputDir,
-      format: "cjs",
-      plugins: [swc(generateSWCConfig("cjs"))],
-      sourcemap: true,
-    },
+      format: 'cjs',
+      plugins: [
+        swc(generateSWCConfig('cjs')),
+        terser({
+          compress: { dead_code: true, unused: true },
+          mangle: true,
+          format: { comments: false }
+        })
+      ],
+      sourcemap: true
+    }
   ],
   plugins: [
     commonjs({
       defaultIsModuleExports: true,
-      esmExternals: true,
+      esmExternals: true
     }),
     typescript(),
     copy(
       [
         {
-          dest: "dist/tsconfig",
-          files: "src/tsconfig/index.json",
-          rename: "tsconfig.json",
-        },
+          dest: 'dist/tsconfig',
+          files: 'src/tsconfig/index.json',
+          rename: 'tsconfig.json'
+        }
       ],
       { verbose: true }
-    ),
-  ],
+    )
+  ]
 };

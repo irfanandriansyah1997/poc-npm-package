@@ -1,6 +1,7 @@
 import type { RollupCommonJSOptions } from '@rollup/plugin-commonjs';
 import commonjs from '@rollup/plugin-commonjs';
 import swc from '@rollup/plugin-swc';
+import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import type { CommonJsConfig, Config, Es6Config } from '@swc/core';
 import fs from 'fs';
@@ -22,7 +23,7 @@ interface GenerateSWCConfigArgs {
 
 /**
  * Generates an SWC configuration based on a given base directory and module format.
- * Attempts to load an SWC config from `.cb-swcrc`, falling back to a default React configuration.
+ * Attempts to load an SWC config from `.swcrc`, falling back to a default React configuration.
  *
  * @param {GenerateSWCConfigArgs} args - The arguments for generating the SWC configuration.
  * @returns {Config} The generated SWC configuration.
@@ -30,7 +31,7 @@ interface GenerateSWCConfigArgs {
 const generateSWCConfig = (args: GenerateSWCConfigArgs): Config => {
   const { baseDir, format } = args;
   /**
-   * Attempts to load SWC configuration from `.fit-swcrc` file.
+   * Attempts to load SWC configuration from `.swcrc` file.
    * If the file is not found, it falls back to a default configuration for React (automatic runtime).
    *
    * @type {Config} swcConfig - SWC configuration object.
@@ -38,17 +39,11 @@ const generateSWCConfig = (args: GenerateSWCConfigArgs): Config => {
   let swcConfig: Config = {};
 
   try {
-    const swcConfigPath = path.resolve(baseDir, '.cb-swcrc');
+    const swcConfigPath = path.resolve(baseDir, '.swcrc');
     swcConfig = JSON.parse(fs.readFileSync(swcConfigPath, 'utf-8'));
   } catch {
     swcConfig = {
-      jsc: {
-        transform: {
-          react: {
-            runtime: 'automatic'
-          }
-        }
-      }
+      jsc: { transform: { react: { runtime: 'automatic' } } }
     };
   }
 
@@ -137,6 +132,7 @@ interface RollupConfigArgs {
   baseDir: string;
   cjsConfig?: RollupCommonJSOptions;
   inputPlugins?: InputPluginOption[];
+  minify?: boolean;
   outputPlugins?: OutputPluginOption[];
 }
 
@@ -151,6 +147,7 @@ export const rollupConfig = (args: RollupConfigArgs): RollupOptions => {
     baseDir,
     cjsConfig = { defaultIsModuleExports: true, esmExternals: true },
     inputPlugins = [],
+    minify = false,
     outputPlugins = []
   } = args;
   const outputDir = 'dist';
@@ -164,6 +161,17 @@ export const rollupConfig = (args: RollupConfigArgs): RollupOptions => {
         format: 'es',
         plugins: [
           swc(generateSWCConfig({ baseDir, format: 'es6' })),
+          [
+            minify
+              ? [
+                  terser({
+                    compress: { dead_code: true, unused: true },
+                    format: { comments: false },
+                    mangle: true
+                  })
+                ]
+              : []
+          ],
           ...outputPlugins
         ],
         sourcemap: true
@@ -173,6 +181,17 @@ export const rollupConfig = (args: RollupConfigArgs): RollupOptions => {
         format: 'cjs',
         plugins: [
           swc(generateSWCConfig({ baseDir, format: 'es6' })),
+          [
+            minify
+              ? [
+                  terser({
+                    compress: { dead_code: true, unused: true },
+                    format: { comments: false },
+                    mangle: true
+                  })
+                ]
+              : []
+          ],
           ...outputPlugins
         ],
         sourcemap: true
