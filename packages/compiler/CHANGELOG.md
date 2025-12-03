@@ -1,5 +1,27 @@
 # @irfanandriansyah1997/compiler
 
+## 2.1.0
+
+### Minor Changes
+
+- ### 🔧 Chores
+  - **ci**: adjust command while publish
+  - **ci**: adjust command pre-commit
+  - **ci**: create publish package gh action (#10)
+  - **semver**: bump version (#8)
+  - **semver**: bump version (#7)
+  - **release**: adding release note when success create github tag
+  - **semver**: bump version (#6)
+  - **cd**: adjust final type coming from breakdown the commit list
+  - **semver**: bump version (#5)
+  - **cd**: remove package manager
+  - **cd**: set different github PAT for merge and release
+  - **cd**: adding type arg and github action for release the npm package
+
+  ### 🐛 Bug Fixes
+  - **compiler**: adjust compiler package config (#9)
+  - **cd**: adjust github pat name
+
 ## 2.0.2
 
 ### Patch Changes
