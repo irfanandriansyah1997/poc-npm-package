@@ -1,5 +1,17 @@
 # @irfanandriansyah1997/compiler
 
+## 1.1.2
+
+### Patch Changes
+
+- ### 🔧 Chores
+  - **cd**: create github action for merge pr publish
+  - **semver**: bump version (#1)
+
+  ### 🐛 Bug Fixes
+  - **script**: remove argument skip push
+  - **script**: remove script for push repo to creating pr
+
 ## 1.1.1
 
 ### Patch Changes
