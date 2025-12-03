@@ -195,12 +195,22 @@ const findWorkspaceRoot = () => {
  */
 const getLastTag = (workspaceRoot) => {
   try {
-    // Get the most recent tag
-    const result = execSync(`git describe --tags --abbrev=0 2>/dev/null`, {
+    // Fetch latest tags from origin
+    execSync(`git fetch --tags origin`, {
       cwd: workspaceRoot,
       encoding: "utf8",
       stdio: ["pipe", "pipe", "pipe"],
-    }).trim();
+    });
+
+    // Get all tags, exclude beta tags, sort by version, get the latest
+    const result = execSync(
+      `git tag -l | grep -v '\\-beta\\-' | sort -V | tail -1`,
+      {
+        cwd: workspaceRoot,
+        encoding: "utf8",
+        stdio: ["pipe", "pipe", "pipe"],
+      }
+    ).trim();
 
     return result || null;
   } catch {
