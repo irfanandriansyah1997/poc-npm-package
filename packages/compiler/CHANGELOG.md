@@ -1,5 +1,14 @@
 # @irfanandriansyah1997/compiler
 
+## 1.1.5
+
+### Patch Changes
+
+- ### 🔧 Chores
+  - **cd**: remove package manager
+  - **cd**: set different github PAT for merge and release
+  - **cd**: adding type arg and github action for release the npm package
+
 ## 1.1.4
 
 ### Patch Changes
