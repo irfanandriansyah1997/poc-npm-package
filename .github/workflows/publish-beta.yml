@@ -42,6 +42,12 @@ jobs:
         with:
           ref: ${{ inputs.branch_name }}
           fetch-depth: 0
+          token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+      
+      - name: Set git identity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -158,9 +164,6 @@ jobs:
           BRANCH_NAME="${{ inputs.branch_name }}"
           
           echo "🏷️  Creating tag: $TAG_NAME"
-          
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           
           # Create annotated tag
           git tag -a "$TAG_NAME" -m "Beta release: $PACKAGE_NAME@$BETA_VERSION from branch $BRANCH_NAME"
