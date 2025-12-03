@@ -6,7 +6,7 @@ const path = require("path");
 const readline = require("readline");
 
 /**
- * Full release workflow: create changeset from commits → version → push tags
+ * Full release workflow: create changeset from commits → version → create PR
  *
  * Usage:
  *   pkg-release --package="@irfanandriansyah1997/compiler"
@@ -15,7 +15,7 @@ const readline = require("readline");
  *
  * Options:
  *   --package, -p   Package name(s), comma-separated for multiple packages (required)
- *   --skip-push     Skip pushing tags to remote
+ *   --skip-push     Skip creating branch and PR (local changes only)
  */
 
 const parseArgs = () => {
@@ -93,6 +93,7 @@ const main = async () => {
   console.log("\n🚀 Starting release workflow...\n");
   console.log(`   Packages: ${packages.join(", ")}`);
   console.log(`   Workspace: ${workspaceRoot}`);
+  console.log(`   Mode: ${skipPush ? "Local only" : "Create PR"}`);
 
   // Step 1: Create changeset from commits
   console.log("\n" + "=".repeat(60));
@@ -111,6 +112,7 @@ const main = async () => {
   console.log("=".repeat(60));
 
   const versionCmd = skipPush ? "pkg-version" : "pkg-version --push";
+
   if (!runCommand(versionCmd, {})) {
     console.error("\n❌ Failed to version packages");
     process.exit(1);
@@ -129,14 +131,19 @@ const main = async () => {
   console.log("   ✓ Created git tags");
 
   if (!skipPush) {
+    console.log("   ✓ Created branch with random name");
     console.log("   ✓ Pushed tags to remote");
-    console.log("   ✓ Pushed to main branch (force)");
+    console.log("   ✓ Created PR with 'bump-version' label");
+    console.log(
+      "\n🎉 Next step: Review and merge the PR, then run 'pnpm release:publish' to publish to npm\n"
+    );
   } else {
     console.log("\n💡 Changes were not pushed. Run:");
-    console.log("   git push origin --tags && git push origin main --force");
+    console.log("   pkg-version --push");
+    console.log(
+      "\n🎉 Next step: Run 'pnpm release:publish' to publish to npm\n"
+    );
   }
-
-  console.log("\n🎉 Next step: Run 'pnpm release:publish' to publish to npm\n");
 };
 
 main().catch((error) => {
