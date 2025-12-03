@@ -20,7 +20,7 @@ yarn add @irfanandriansyah1997/compiler -D
 Make sure to install the required peer dependencies:
 
 ```bash
-pnpm add -D @rollup/plugin-commonjs @rollup/plugin-swc @rollup/plugin-typescript @swc/cli @swc/core rollup typescript typescript-transform-paths
+pnpm add -D @rollup/plugin-commonjs @rollup/plugin-swc @rollup/plugin-terser @rollup/plugin-typescript @swc/cli @swc/core rollup typescript typescript-transform-paths
 ```
 
 ## API Reference
@@ -84,6 +84,24 @@ module.exports = rollupConfig({
 });
 ```
 
+#### Enable Minification
+
+To minify the output and remove all comments, enable the `minify` option:
+
+```javascript
+const { rollupConfig } = require('@irfanandriansyah1997/compiler/rollup.cjs');
+
+module.exports = rollupConfig({
+  baseDir: __dirname,
+  minify: true // Enables terser minification
+});
+```
+
+When `minify` is enabled, the output will be:
+- **Compressed**: Dead code and unused variables are removed
+- **Mangled**: Variable names are shortened for smaller file size
+- **Comment-free**: All comments are stripped from the output
+
 #### `rollupConfig` Options
 
 | Option | Type | Required | Default | Description |
@@ -91,6 +109,7 @@ module.exports = rollupConfig({
 | `baseDir` | `string` | ✅ | - | The base directory for resolving files (usually `__dirname`) |
 | `cjsConfig` | `RollupCommonJSOptions` | ❌ | `{ defaultIsModuleExports: true, esmExternals: true }` | CommonJS plugin configuration |
 | `inputPlugins` | `InputPluginOption[]` | ❌ | `[]` | Additional Rollup input plugins |
+| `minify` | `boolean` | ❌ | `false` | Enable terser minification (removes comments, dead code, and mangles variable names) |
 | `outputPlugins` | `OutputPluginOption[]` | ❌ | `[]` | Additional Rollup output plugins |
 
 #### Output Structure
@@ -204,6 +223,7 @@ my-package/
     "@irfanandriansyah1997/compiler": "^2.0.0",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-swc": "^0.4.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.0.0",
     "@swc/cli": "^0.6.0",
     "@swc/core": "^1.11.0",
