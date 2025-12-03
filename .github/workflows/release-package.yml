@@ -79,7 +79,7 @@ jobs:
         with:
           draft: false
           generate_release_notes: true
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
           tag_name: ${{ steps.get-version.outputs.tag_name }}
 
       - name: Summary
