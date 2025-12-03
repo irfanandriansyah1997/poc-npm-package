@@ -109,10 +109,35 @@ const runChangesetVersion = (workspaceRoot) => {
   }
 };
 
+const configureGitBot = (workspaceRoot) => {
+  // Configure git to use GitHub Actions bot
+  const botName = "github-actions[bot]";
+  const botEmail = "github-actions[bot]@users.noreply.github.com";
+
+  try {
+    execSync(`git config user.name "${botName}"`, {
+      cwd: workspaceRoot,
+      stdio: "pipe",
+    });
+    execSync(`git config user.email "${botEmail}"`, {
+      cwd: workspaceRoot,
+      stdio: "pipe",
+    });
+    console.log(`🤖 Git configured as: ${botName}`);
+    return true;
+  } catch (error) {
+    console.error("❌ Failed to configure git bot:", error.message);
+    return false;
+  }
+};
+
 const commitVersionBump = (workspaceRoot, updatedPackages) => {
   console.log("\n📝 Committing version changes...\n");
 
   try {
+    // Configure git bot for commits
+    configureGitBot(workspaceRoot);
+
     // Stage all changes
     execSync("git add -A", {
       cwd: workspaceRoot,
@@ -219,7 +244,11 @@ const createPRWithGitHubAPI = async (
     )
     .join("\n");
 
-  const prTitle = "chore(semver): bump version";
+  // Generate PR title with package names and versions
+  const packageVersions = updatedPackages
+    .map(({ name, newVersion }) => `${name}@${newVersion}`)
+    .join(", ");
+  const prTitle = `chore(semver): bump version ${packageVersions}`;
   const prBody = `## 📦 Version Bump
 
 This PR bumps the following packages:
