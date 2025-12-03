@@ -53,12 +53,21 @@ jobs:
               pull_number: context.issue.number
             });
             
+            // Get PR creation date in DDMMYYYY format
+            const createdAt = new Date(pr.created_at);
+            const day = String(createdAt.getDate()).padStart(2, '0');
+            const month = String(createdAt.getMonth() + 1).padStart(2, '0');
+            const year = createdAt.getFullYear();
+            const prDate = `${day}${month}${year}`;
+            
             console.log(`🌿 Branch: ${pr.head.ref}`);
             console.log(`📌 PR #${pr.number}: ${pr.title}`);
+            console.log(`📅 PR Created: ${pr.created_at} (${prDate})`);
             
             core.setOutput('branch_name', pr.head.ref);
             core.setOutput('pr_number', pr.number);
             core.setOutput('pr_title', pr.title);
+            core.setOutput('pr_date', prDate);
 
       - name: Add reaction to comment
         uses: actions/github-script@v7
@@ -77,6 +86,7 @@ jobs:
         run: |
           BRANCH_NAME="${{ steps.pr.outputs.branch_name }}"
           SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | sed 's/[^a-zA-Z0-9-]//g')
+          
           echo "SANITIZED_BRANCH=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
           echo "📌 Sanitized branch name: $SANITIZED_BRANCH"
 
@@ -117,6 +127,7 @@ jobs:
         run: |
           PACKAGE_NAME="${{ steps.parse.outputs.package_name }}"
           SANITIZED_BRANCH="${{ steps.sanitize.outputs.SANITIZED_BRANCH }}"
+          PR_DATE="${{ steps.pr.outputs.pr_date }}"
           
           # Get package directory
           PACKAGE_DIR=$(pnpm list --json --recursive --depth -1 | jq -r --arg name "$PACKAGE_NAME" '.[] | select(.name == $name) | .path')
@@ -137,14 +148,14 @@ jobs:
           BASE_VERSION=$(echo "$CURRENT_VERSION" | sed 's/-.*//')
           echo "🔢 Base version: $BASE_VERSION"
           
-          # Find existing beta tags for this package and branch
-          TAG_PREFIX="${PACKAGE_NAME}@${BASE_VERSION}-beta-${SANITIZED_BRANCH}"
+          # Find existing beta tags for this package, branch, and PR date
+          TAG_PREFIX="${PACKAGE_NAME}@${BASE_VERSION}-beta-${PR_DATE}-${SANITIZED_BRANCH}"
           echo "🏷️  Looking for tags with prefix: $TAG_PREFIX"
           
           # Get the highest counter from existing tags
           HIGHEST_COUNTER=0
           for tag in $(git tag -l "${TAG_PREFIX}.*" 2>/dev/null); do
-            # Extract counter from tag (e.g., @scope/pkg@1.0.0-branch.3 -> 3)
+            # Extract counter from tag (e.g., @scope/pkg@1.0.0-beta-04122025-branch.3 -> 3)
             COUNTER=$(echo "$tag" | grep -oE '\.[0-9]+$' | tr -d '.')
             if [ -n "$COUNTER" ] && [ "$COUNTER" -gt "$HIGHEST_COUNTER" ]; then
               HIGHEST_COUNTER=$COUNTER
@@ -155,8 +166,8 @@ jobs:
           NEXT_COUNTER=$((HIGHEST_COUNTER + 1))
           echo "🔄 Previous counter: $HIGHEST_COUNTER, Next counter: $NEXT_COUNTER"
           
-          # Build the beta version
-          BETA_VERSION="${BASE_VERSION}-beta-${SANITIZED_BRANCH}.${NEXT_COUNTER}"
+          # Build the beta version with PR date
+          BETA_VERSION="${BASE_VERSION}-beta-${PR_DATE}-${SANITIZED_BRANCH}.${NEXT_COUNTER}"
           echo "🚀 Beta version: $BETA_VERSION"
           
           # Build the tag name
