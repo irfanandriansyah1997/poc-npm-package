@@ -1,49 +1,92 @@
-name: Publish Beta Package
+name: Publish Beta
 
 on:
-  workflow_dispatch:
-    inputs:
-      package_name:
-        description: 'Package name (e.g., @irfanandriansyah1997/compiler)'
-        required: true
-        type: string
-      branch_name:
-        description: 'Branch name for prerelease prefix (e.g., feature-xyz)'
-        required: true
-        type: string
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  packages: write
 
 jobs:
   publish-beta:
+    # Only run on PR comments (not issue comments) and when comment starts with /publish-beta
+    if: |
+      github.event.issue.pull_request &&
+      startsWith(github.event.comment.body, '/publish-beta')
     runs-on: ubuntu-latest
 
     steps:
-      - name: Validate inputs
+      - name: Parse comment and extract package name
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            const comment = context.payload.comment.body.trim();
+            console.log(`📝 Comment: ${comment}`);
+            
+            // Expected format: /publish-beta @scope/package or /publish-beta package
+            const match = comment.match(/^\/publish-beta\s+(@?[\w\-\/]+)/);
+            
+            if (!match) {
+              core.setFailed('❌ Invalid comment format. Use: /publish-beta @scope/package-name');
+              return;
+            }
+            
+            const packageName = match[1];
+            console.log(`📦 Package name: ${packageName}`);
+            
+            core.setOutput('package_name', packageName);
+
+      - name: Get PR details
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            console.log(`🌿 Branch: ${pr.head.ref}`);
+            console.log(`📌 PR #${pr.number}: ${pr.title}`);
+            
+            core.setOutput('branch_name', pr.head.ref);
+            core.setOutput('pr_number', pr.number);
+            core.setOutput('pr_title', pr.title);
+
+      - name: Add reaction to comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'rocket'
+            });
+
+      - name: Sanitize branch name
+        id: sanitize
         run: |
-          BRANCH_NAME="${{ inputs.branch_name }}"
-          PACKAGE_NAME="${{ inputs.package_name }}"
-          
-          if [ -z "$BRANCH_NAME" ]; then
-            echo "❌ Branch name is required"
-            exit 1
-          fi
-          
-          if [ -z "$PACKAGE_NAME" ]; then
-            echo "❌ Package name is required"
-            exit 1
-          fi
-          
-          # Sanitize branch name (replace / with -)
+          BRANCH_NAME="${{ steps.pr.outputs.branch_name }}"
           SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | sed 's/[^a-zA-Z0-9-]//g')
-          echo "SANITIZED_BRANCH=$SANITIZED_BRANCH" >> $GITHUB_ENV
+          echo "SANITIZED_BRANCH=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
           echo "📌 Sanitized branch name: $SANITIZED_BRANCH"
 
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch_name }}
+          ref: ${{ steps.pr.outputs.branch_name }}
           fetch-depth: 0
           token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
-      
+
       - name: Set git identity
         run: |
           git config --global user.name "github-actions[bot]"
@@ -72,8 +115,8 @@ jobs:
       - name: Get package info and calculate beta version
         id: version
         run: |
-          PACKAGE_NAME="${{ inputs.package_name }}"
-          SANITIZED_BRANCH="${{ env.SANITIZED_BRANCH }}"
+          PACKAGE_NAME="${{ steps.parse.outputs.package_name }}"
+          SANITIZED_BRANCH="${{ steps.sanitize.outputs.SANITIZED_BRANCH }}"
           
           # Get package directory
           PACKAGE_DIR=$(pnpm list --json --recursive --depth -1 | jq -r --arg name "$PACKAGE_NAME" '.[] | select(.name == $name) | .path')
@@ -142,17 +185,68 @@ jobs:
 
       - name: Build package
         run: |
-          PACKAGE_NAME="${{ inputs.package_name }}"
+          PACKAGE_NAME="${{ steps.parse.outputs.package_name }}"
           echo "🔨 Building $PACKAGE_NAME..."
           pnpm --filter "$PACKAGE_NAME" build
 
+      - name: Delete existing version if exists
+        continue-on-error: true
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            const packageName = '${{ steps.parse.outputs.package_name }}';
+            const betaVersion = '${{ steps.version.outputs.BETA_VERSION }}';
+            
+            // Extract package name without scope for API
+            const packageNameWithoutScope = packageName.replace(/^@[^/]+\//, '');
+            
+            console.log(`🔍 Checking for existing version ${betaVersion} of ${packageName}...`);
+            
+            try {
+              // List all versions of the package
+              const { data: versions } = await github.rest.packages.getAllPackageVersionsForPackageOwnedByUser({
+                package_type: 'npm',
+                package_name: packageNameWithoutScope,
+                username: 'irfanandriansyah1997'
+              });
+              
+              // Find the version to delete
+              const versionToDelete = versions.find(v => v.name === betaVersion);
+              
+              if (versionToDelete) {
+                console.log(`🗑️ Deleting existing version ${betaVersion} (ID: ${versionToDelete.id})...`);
+                
+                await github.rest.packages.deletePackageVersionForUser({
+                  package_type: 'npm',
+                  package_name: packageNameWithoutScope,
+                  username: 'irfanandriansyah1997',
+                  package_version_id: versionToDelete.id
+                });
+                
+                console.log(`✅ Successfully deleted version ${betaVersion}`);
+              } else {
+                console.log(`ℹ️ Version ${betaVersion} does not exist, proceeding with publish`);
+              }
+            } catch (error) {
+              if (error.status === 404) {
+                console.log(`ℹ️ Package or version not found, proceeding with publish`);
+              } else {
+                console.log(`⚠️ Could not delete existing version: ${error.message}`);
+              }
+            }
+
       - name: Publish to GitHub Packages
+        id: publish
         run: |
-          PACKAGE_NAME="${{ inputs.package_name }}"
+          PACKAGE_NAME="${{ steps.parse.outputs.package_name }}"
           BETA_VERSION="${{ steps.version.outputs.BETA_VERSION }}"
           
           echo "📤 Publishing $PACKAGE_NAME@$BETA_VERSION to GitHub Packages..."
           pnpm --filter "$PACKAGE_NAME" publish --access public --no-git-checks --tag beta
+          
+          echo "✅ Successfully published $PACKAGE_NAME@$BETA_VERSION"
+          echo "PUBLISH_STATUS=success" >> $GITHUB_OUTPUT
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
 
@@ -160,8 +254,8 @@ jobs:
         run: |
           TAG_NAME="${{ steps.version.outputs.TAG_NAME }}"
           BETA_VERSION="${{ steps.version.outputs.BETA_VERSION }}"
-          PACKAGE_NAME="${{ inputs.package_name }}"
-          BRANCH_NAME="${{ inputs.branch_name }}"
+          PACKAGE_NAME="${{ steps.parse.outputs.package_name }}"
+          BRANCH_NAME="${{ steps.pr.outputs.branch_name }}"
           
           echo "🏷️  Creating tag: $TAG_NAME"
           
@@ -175,24 +269,88 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
 
+      - name: Comment on PR with result
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            const packageName = '${{ steps.parse.outputs.package_name }}';
+            const betaVersion = '${{ steps.version.outputs.BETA_VERSION }}';
+            const tagName = '${{ steps.version.outputs.TAG_NAME }}';
+            const branchName = '${{ steps.pr.outputs.branch_name }}';
+            
+            const body = `## 🧪 Beta Package Published!
+
+            | Field | Value |
+            |-------|-------|
+            | **Package** | \`${packageName}\` |
+            | **Version** | \`${betaVersion}\` |
+            | **Branch** | \`${branchName}\` |
+            | **Tag** | \`${tagName}\` |
+
+            ### 📥 Install
+
+            \`\`\`bash
+            pnpm add ${packageName}@${betaVersion}
+            \`\`\`
+
+            Or using the beta tag:
+
+            \`\`\`bash
+            pnpm add ${packageName}@beta
+            \`\`\`
+
+            ✅ Successfully published beta to GitHub Packages!`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
+
+      - name: Add success reaction
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1'
+            });
+
+      - name: Add failure reaction
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '-1'
+            });
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '❌ Failed to publish beta package. Please check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}).'
+            });
+
       - name: Summary
         run: |
-          echo "## 🧪 Beta Publish Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## 🧪 Beta Publish Summary (from PR Comment)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Package:** ${{ inputs.package_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**PR:** #${{ steps.pr.outputs.pr_number }} - ${{ steps.pr.outputs.pr_title }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** ${{ steps.parse.outputs.package_name }}" >> $GITHUB_STEP_SUMMARY
           echo "**Version:** ${{ steps.version.outputs.BETA_VERSION }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Branch:** ${{ inputs.branch_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ steps.pr.outputs.branch_name }}" >> $GITHUB_STEP_SUMMARY
           echo "**Tag:** ${{ steps.version.outputs.TAG_NAME }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📥 Install" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
-          echo "pnpm add ${{ inputs.package_name }}@${{ steps.version.outputs.BETA_VERSION }}" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Or using the beta tag:" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
-          echo "pnpm add ${{ inputs.package_name }}@beta" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "✅ Successfully published beta to GitHub Packages!" >> $GITHUB_STEP_SUMMARY
 

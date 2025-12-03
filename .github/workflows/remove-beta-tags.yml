@@ -3,11 +3,12 @@ name: Remove beta version tags
 on:
   workflow_dispatch:
   schedule:
-    # Run at 9:00 AM Jakarta time (UTC+7) = 02:00 UTC, Monday to Friday only
-    - cron: '0 2 * * 1-5'
+    # Run at 23:59 Jakarta time (UTC+7) = 16:59 UTC, only on Friday
+    - cron: '59 16 * * 5'
 
 permissions:
   contents: write
+  packages: write
 
 jobs:
   remove-old-tags:
@@ -19,28 +20,171 @@ jobs:
         with:
           fetch-depth: 0 # fetch all tags
 
-      - name: Delete tags that contain a dash
+      - name: Get tags to delete
+        id: get-tags
         run: |
           # Fetch all tags
           git fetch --tags
 
-          # Get all tags containing '-'
-          tags=$(git tag | grep '-')
+          # Get all tags containing '-beta-' (beta versions)
+          # Use --no-column and strip any line number prefixes
+          tags=$(git tag --list '*-beta-*' | sed 's/^[0-9]*://' || echo "")
 
           if [ -z "$tags" ]; then
-            echo "✅ No tags with dash found."
+            echo "✅ No beta tags found."
+            echo "TAGS=" >> $GITHUB_OUTPUT
             exit 0
           fi
 
           echo "🗑️ Tags to delete:"
           echo "$tags"
+          
+          # Save tags as JSON array for the next step
+          TAGS_JSON=$(echo "$tags" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "TAGS=$TAGS_JSON" >> $GITHUB_OUTPUT
+          
+          # Also save as newline-separated for shell script
+          echo "TAGS_RAW<<EOF" >> $GITHUB_OUTPUT
+          echo "$tags" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
-          # Delete locally
-          git tag -d $tags
+      - name: Delete npm package versions
+        if: steps.get-tags.outputs.TAGS != ''
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          script: |
+            const tags = ${{ steps.get-tags.outputs.TAGS }};
+            
+            console.log(`🔍 Processing ${tags.length} beta tags...`);
+            
+            for (let tag of tags) {
+              // Strip any line number prefix (e.g., "407:")
+              tag = tag.replace(/^\d+:/, '');
+              
+              // Parse tag format: @scope/package@version
+              const match = tag.match(/^(@[^@]+)@(.+)$/);
+              
+              if (!match) {
+                console.log(`⚠️ Skipping invalid tag format: ${tag}`);
+                continue;
+              }
+              
+              const fullPackageName = match[1];  // @scope/package
+              const version = match[2];           // version
+              
+              // Extract package name without scope for API
+              const packageNameWithoutScope = fullPackageName.replace(/^@[^/]+\//, '');
+              
+              // Extract scope/owner
+              const scopeMatch = fullPackageName.match(/^@([^/]+)\//);
+              const owner = scopeMatch ? scopeMatch[1] : context.repo.owner;
+              
+              console.log(`\n📦 Package: ${fullPackageName}`);
+              console.log(`📌 Version: ${version}`);
+              console.log(`👤 Owner: ${owner}`);
+              
+              try {
+                // Try to get package versions (try org first, then user)
+                let versions;
+                let isOrg = true;
+                
+                try {
+                  const response = await github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg({
+                    package_type: 'npm',
+                    package_name: packageNameWithoutScope,
+                    org: owner
+                  });
+                  versions = response.data;
+                } catch (orgError) {
+                  if (orgError.status === 404) {
+                    // Try user packages
+                    isOrg = false;
+                    const response = await github.rest.packages.getAllPackageVersionsForPackageOwnedByUser({
+                      package_type: 'npm',
+                      package_name: packageNameWithoutScope,
+                      username: owner
+                    });
+                    versions = response.data;
+                  } else {
+                    throw orgError;
+                  }
+                }
+                
+                // Find the version to delete
+                const versionToDelete = versions.find(v => v.name === version);
+                
+                if (versionToDelete) {
+                  console.log(`🗑️ Deleting version ${version} (ID: ${versionToDelete.id})...`);
+                  
+                  if (isOrg) {
+                    await github.rest.packages.deletePackageVersionForOrg({
+                      package_type: 'npm',
+                      package_name: packageNameWithoutScope,
+                      org: owner,
+                      package_version_id: versionToDelete.id
+                    });
+                  } else {
+                    await github.rest.packages.deletePackageVersionForUser({
+                      package_type: 'npm',
+                      package_name: packageNameWithoutScope,
+                      username: owner,
+                      package_version_id: versionToDelete.id
+                    });
+                  }
+                  
+                  console.log(`✅ Deleted npm package version: ${fullPackageName}@${version}`);
+                } else {
+                  console.log(`ℹ️ Version ${version} not found in registry, skipping`);
+                }
+              } catch (error) {
+                if (error.status === 404) {
+                  console.log(`ℹ️ Package ${fullPackageName} not found in registry`);
+                } else {
+                  console.log(`⚠️ Error deleting ${fullPackageName}@${version}: ${error.message}`);
+                }
+              }
+            }
+            
+            console.log('\n✅ Finished processing npm package deletions');
+
+      - name: Delete git tags
+        if: steps.get-tags.outputs.TAGS != ''
+        run: |
+          # Use cleaned tags from previous step
+          tags="${{ steps.get-tags.outputs.TAGS_RAW }}"
+
+          if [ -z "$tags" ]; then
+            echo "✅ No beta tags to delete."
+            exit 0
+          fi
+
+          echo "🗑️ Deleting git tags..."
+          echo "$tags"
+          
+          # Delete locally one by one to handle errors gracefully
+          echo "$tags" | while read -r tag; do
+            if [ -n "$tag" ]; then
+              echo "  Deleting local tag: $tag"
+              git tag -d "$tag" 2>/dev/null || echo "  ⚠️ Local tag $tag not found, skipping"
+            fi
+          done
 
           # Prepare remote delete refs
-          delete_refs=$(echo "$tags" | sed 's/^/:refs\/tags\//')
+          delete_refs=$(echo "$tags" | sed 's/^/:refs\/tags\//' | tr '\n' ' ')
 
           # Push all deletions in a single command
-          echo "🚀 Deleting all in one push..."
-          git push origin $delete_refs
+          echo "🚀 Pushing tag deletions to remote..."
+          git push origin $delete_refs 2>/dev/null || echo "⚠️ Some remote tags may not exist"
+          
+          echo "✅ Git tags deleted successfully"
+
+      - name: Summary
+        run: |
+          echo "## 🧹 Beta Cleanup Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -n '${{ steps.get-tags.outputs.TAGS }}' ]; then
+            echo "✅ Deleted beta git tags and npm package versions" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ No beta tags found to delete" >> $GITHUB_STEP_SUMMARY
+          fi
