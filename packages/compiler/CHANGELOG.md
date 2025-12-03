@@ -1,5 +1,16 @@
 # @irfanandriansyah1997/compiler
 
+## 2.0.0
+
+### Major Changes
+
+- ### 🔧 Chores
+  - **cd**: adjust final type coming from breakdown the commit list
+  - **semver**: bump version (#5)
+  - **cd**: remove package manager
+  - **cd**: set different github PAT for merge and release
+  - **cd**: adding type arg and github action for release the npm package
+
 ## 1.1.5
 
 ### Patch Changes
