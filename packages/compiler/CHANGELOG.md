@@ -1,5 +1,12 @@
 # @irfanandriansyah1997/compiler
 
+## 1.1.3
+
+### Patch Changes
+
+- ### 🔧 Chores
+  - **cd**: update env variable
+
 ## 1.1.2
 
 ### Patch Changes
