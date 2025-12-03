@@ -123,7 +123,7 @@ const commitVersionBump = (workspaceRoot, updatedPackages) => {
     const packageNames = updatedPackages.map((p) => p.name).join(", ");
     const commitMessage = "chore(semver): bump version";
 
-    execSync(`git commit -m "${commitMessage}"`, {
+    execSync(`git commit -n -m "${commitMessage}"`, {
       cwd: workspaceRoot,
       stdio: "pipe",
     });
