@@ -1,5 +1,12 @@
 # @irfanandriansyah1997/compiler
 
+## 1.1.1
+
+### Patch Changes
+
+- ### 🐛 Bug Fixes
+  - **script**: remove script for push repo to creating pr
+
 ## 1.1.0
 
 ### Minor Changes
