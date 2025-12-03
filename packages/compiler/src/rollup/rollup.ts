@@ -42,13 +42,7 @@ const generateSWCConfig = (args: GenerateSWCConfigArgs): Config => {
     swcConfig = JSON.parse(fs.readFileSync(swcConfigPath, 'utf-8'));
   } catch {
     swcConfig = {
-      jsc: {
-        transform: {
-          react: {
-            runtime: 'automatic'
-          }
-        }
-      }
+      jsc: { transform: { react: { runtime: 'automatic' } } }
     };
   }
 
