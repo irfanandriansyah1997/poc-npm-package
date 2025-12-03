@@ -1,0 +1,27 @@
+{
+  "jsc":{
+    "parser":{
+      "syntax":"typescript",
+      "tsx":true,
+      "decorators":true,
+      "dynamicImport":true
+    },
+    "transform":{
+      "react":{
+        "runtime":"automatic"
+      }
+    },
+    "target":"es5",
+    "baseUrl":"./",
+    "paths":{
+      "@/*":[
+        "./src/*"
+      ]
+    }
+  },
+  "module":{
+    "type":"commonjs"
+  },
+  "isModule":true,
+  "sourceMaps":false
+}

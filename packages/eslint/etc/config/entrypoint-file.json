@@ -1,0 +1,26 @@
+{
+  "js-file":[
+    {
+      "file":"./dist/non-react-pre-commit",
+      "name":"non-react-pre-commit",
+      "export-kind":"default export"
+    },
+    {
+      "file":"./dist/non-react",
+      "name":"non-react",
+      "export-kind":"default export"
+    },
+    {
+      "file":"./dist/react-pre-commit",
+      "name":"react-pre-commit",
+      "export-kind":"default export"
+    },
+    {
+      "file":"./dist/react",
+      "name":"react",
+      "export-kind":"default export"
+    }
+  ],
+  "static-file":[],
+  "custom-config":[]
+}

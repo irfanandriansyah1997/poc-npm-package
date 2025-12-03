@@ -15,6 +15,7 @@ for DIR in $PACKAGE_DIRS; do
   if [ ! -f $NPMRC_FILE ]; then
     # Create the .npmrc config file
     cat <<EOF > "$NPMRC_FILE"
+@irfanandriansyah1997:registry=https://npm.pkg.github.com
 @tiket:registry=https://npm.pkg.github.com
 EOF
   fi

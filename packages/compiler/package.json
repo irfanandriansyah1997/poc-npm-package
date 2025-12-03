@@ -1,0 +1,85 @@
+{
+  "name": "@irfanandriansyah1997/compiler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm build:dec && pnpm build:ts",
+    "build:dec": "tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "build:ts": "node --max-old-space-size=8192 node_modules/rollup/dist/bin/rollup -c --bundleConfigAsCjs --silent",
+    "lint": "eslint",
+    "postbuild": "pkg-post-build --file-name=\"@irfanandriansyah1997/compiler\"",
+    "prebuild": "pnpm run ts:patch && pnpm run sync:file && rm -rf dist",
+    "predev": "pnpm run ts:patch",
+    "sync:file": "pkg-sync-file --file-name=\"@irfanandriansyah1997/compiler\"",
+    "ts:patch": "ts-patch install -s",
+    "type:check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@irfanandriansyah1997/scripts": "workspace:*",
+    "@eslint/js": "^9.0.0",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-swc": "^0.4.0",
+    "@rollup/plugin-typescript": "^12.0.0",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.11.0",
+    "@types/node": "^22.13.14",
+    "@types/rollup": "^0.54.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": ">=10.1.0",
+    "eslint-plugin-jest": "^28.0.0",
+    "eslint-plugin-jsx-a11y": "^6.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-sort-destructure-keys": "^2.0.0",
+    "eslint-plugin-sort-keys-fix": "^1.0.0",
+    "eslint-plugin-typescript-sort-keys": "^3.0.0",
+    "globals": "^16.0.0",
+    "jest": "^28.0.0 || ^29.0.0",
+    "prettier": ">=3.0.0",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "rollup": "^4.0.0",
+    "rollup-plugin-copy-glob": "^0.4.1",
+    "ts-patch": "^3.0.0",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.0.0",
+    "typescript-transform-paths": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-swc": "^0.4.0",
+    "@rollup/plugin-typescript": "^12.0.0",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.11.0",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "rollup": "^4.0.0",
+    "typescript": "^5.0.0",
+    "typescript-transform-paths": "^3.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0",
+  "files": [
+    "dist",
+    "rollup.js",
+    "rollup.d.ts",
+    "rollup.esm.js",
+    "rollup.esm.d.ts"
+  ],
+  "exports": {
+    "./tsconfig.json": "./dist/tsconfig/tsconfig.json",
+    "./rollup": {
+      "import": "./rollup.esm.js",
+      "require": "./rollup.esm.js",
+      "types": "./rollup.d.ts"
+    },
+    "./rollup.cjs": {
+      "import": "./rollup.js",
+      "require": "./rollup.js",
+      "types": "./rollup.d.ts"
+    }
+  }
+}

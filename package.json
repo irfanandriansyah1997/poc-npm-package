@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "init:dev": "sh etc/shells/init.sh",
-    "prepare": "husky"
+    "prepare": "sh etc/shells/prepare.sh && husky"
   },
   "commitlint": {
     "extends": [

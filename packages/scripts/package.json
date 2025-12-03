@@ -1,0 +1,17 @@
+{
+  "name": "@irfanandriansyah1997/scripts",
+  "version": "1.0.0",
+  "description": "Shared build scripts for the monorepo",
+  "bin": {
+    "pkg-post-build": "./bin/post-build.cjs",
+    "pkg-sync-file": "./bin/sync-file.cjs"
+  },
+  "files": [
+    "bin"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0"
+}
+
