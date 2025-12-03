@@ -267,38 +267,6 @@ const parseConventionalCommit = (subject) => {
 };
 
 /**
- * Determine version bump type from commits
- */
-const determineVersionType = (commits) => {
-  let hasBreaking = false;
-  let hasFeature = false;
-
-  for (const commit of commits) {
-    const { body, subject } = commit;
-    const parsed = parseConventionalCommit(subject);
-
-    // Check for breaking changes
-    if (
-      parsed.type === "breaking" ||
-      subject.includes("BREAKING CHANGE") ||
-      subject.includes("!:") ||
-      body.includes("BREAKING CHANGE")
-    ) {
-      hasBreaking = true;
-      break;
-    }
-
-    if (parsed.type === "feat") {
-      hasFeature = true;
-    }
-  }
-
-  if (hasBreaking) return "major";
-  if (hasFeature) return "minor";
-  return "patch";
-};
-
-/**
  * Generate changelog message from commits
  */
 const generateMessageFromCommits = (commits) => {
@@ -413,10 +381,7 @@ const createChangeset = ({ fromCommits, message, packages, type }) => {
     }
 
     console.log(`   Found ${commits.length} commit(s)\n`);
-
-    // Auto-detect version type from commits
-    finalType = determineVersionType(commits);
-    console.log(`   Auto-detected version type: ${finalType}`);
+    console.log(`   Using version type: ${finalType}`);
 
     // Generate message
     finalMessage = generateMessageFromCommits(commits);
