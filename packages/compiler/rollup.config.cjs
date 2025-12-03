@@ -1,5 +1,6 @@
 import commonjs from '@rollup/plugin-commonjs';
 import swc from '@rollup/plugin-swc';
+import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import fs from 'fs';
 import path from 'path';
@@ -116,13 +117,27 @@ export default {
       dir: outputDir,
       entryFileNames: '[name].esm.js',
       format: 'es',
-      plugins: [swc(generateSWCConfig('es6'))],
+      plugins: [
+        swc(generateSWCConfig('es6')),
+        terser({
+          compress: { dead_code: true, unused: true },
+          mangle: true,
+          format: { comments: false }
+        })
+      ],
       sourcemap: true
     },
     {
       dir: outputDir,
       format: 'cjs',
-      plugins: [swc(generateSWCConfig('cjs'))],
+      plugins: [
+        swc(generateSWCConfig('cjs')),
+        terser({
+          compress: { dead_code: true, unused: true },
+          mangle: true,
+          format: { comments: false }
+        })
+      ],
       sourcemap: true
     }
   ],

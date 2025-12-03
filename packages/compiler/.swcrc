@@ -1,4 +1,5 @@
 {
+  "minify": true,
   "jsc":{
     "parser":{
       "syntax":"typescript",
@@ -9,6 +10,13 @@
     "transform":{
       "react":{
         "runtime":"automatic"
+      }
+    },
+    "minify": {
+      "compress": true,
+      "mangle": true,
+      "format": {
+        "comments": false
       }
     },
     "target":"es5",

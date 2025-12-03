@@ -147,10 +147,10 @@ The provided `tsconfig.json` includes:
 
 ### 3. Custom SWC Configuration (Optional)
 
-You can customize SWC behavior by creating a `.cb-swcrc` file in your project root:
+You can customize SWC behavior by creating a `.swcrc` file in your project root:
 
 ```json
-// .cb-swcrc
+// .swcrc
 {
   "jsc": {
     "transform": {
@@ -166,7 +166,7 @@ You can customize SWC behavior by creating a `.cb-swcrc` file in your project ro
 }
 ```
 
-If no `.cb-swcrc` file is found, the default configuration uses React automatic runtime.
+If no `.swcrc` file is found, the default configuration uses React automatic runtime.
 
 ---
 
