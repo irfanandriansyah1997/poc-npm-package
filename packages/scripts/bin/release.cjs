@@ -22,7 +22,6 @@ const parseArgs = () => {
   const args = process.argv.slice(2);
   const result = {
     packages: [],
-    skipPush: false,
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -35,8 +34,6 @@ const parseArgs = () => {
         .map((p) => p.trim());
     } else if (arg === "--package" || arg === "-p") {
       result.packages = args[++i].split(",").map((p) => p.trim());
-    } else if (arg === "--skip-push") {
-      result.skipPush = true;
     }
   }
 
@@ -93,7 +90,6 @@ const main = async () => {
   console.log("\n🚀 Starting release workflow...\n");
   console.log(`   Packages: ${packages.join(", ")}`);
   console.log(`   Workspace: ${workspaceRoot}`);
-  console.log(`   Mode: ${skipPush ? "Local only" : "Create PR"}`);
 
   // Step 1: Create changeset from commits
   console.log("\n" + "=".repeat(60));
@@ -101,7 +97,7 @@ const main = async () => {
   console.log("=".repeat(60));
 
   const changesetCmd = `pkg-create-changeset -p "${packageList}" --from-commits`;
-  if (!runCommand(changesetCmd, {})) {
+  if (!runCommand(changesetCmd, { showOutput: false })) {
     console.error("\n❌ Failed to create changeset");
     process.exit(1);
   }
@@ -111,9 +107,9 @@ const main = async () => {
   console.log("📦 Step 2: Bumping versions and creating tags");
   console.log("=".repeat(60));
 
-  const versionCmd = skipPush ? "pkg-version" : "pkg-version --push";
+  const versionCmd = "pkg-version --push";
 
-  if (!runCommand(versionCmd, {})) {
+  if (!runCommand(versionCmd, { showOutput: false })) {
     console.error("\n❌ Failed to version packages");
     process.exit(1);
   }
@@ -130,20 +126,9 @@ const main = async () => {
   console.log("   ✓ Commit the bump version");
   console.log("   ✓ Created git tags");
 
-  if (!skipPush) {
-    console.log("   ✓ Created branch with random name");
-    console.log("   ✓ Pushed tags to remote");
-    console.log("   ✓ Created PR with 'bump-version' label");
-    console.log(
-      "\n🎉 Next step: Review and merge the PR, then run 'pnpm release:publish' to publish to npm\n"
-    );
-  } else {
-    console.log("\n💡 Changes were not pushed. Run:");
-    console.log("   pkg-version --push");
-    console.log(
-      "\n🎉 Next step: Run 'pnpm release:publish' to publish to npm\n"
-    );
-  }
+  console.log("\n💡 Changes were not pushed. Run:");
+  console.log("   pkg-version --push");
+  console.log("\n🎉 Next step: Run 'pnpm release:publish' to publish to npm\n");
 };
 
 main().catch((error) => {
