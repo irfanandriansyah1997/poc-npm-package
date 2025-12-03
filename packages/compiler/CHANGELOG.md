@@ -1,5 +1,37 @@
 # @irfanandriansyah1997/compiler
 
+## 3.1.0
+
+### Minor Changes
+
+- ### 🔧 Chores
+  - **ci**: fix when create the release notes
+  - **ci**: adding github check
+  - **ci**: adjust beta convention naming while release
+  - **ci**: adjust logic while remove beta tags along with remove all beta version npm package
+  - **ci**: adding github token information while publish beta ver
+  - **ci**: create ci for publish beta by comments
+  - **ci**: move git user.name and user.email while publish beta version
+  - **ci**: create ci for publish beta version and cleanup github beta tags (#14)
+  - **semver**: bump version (#13)
+  - **semver**: bump version (#12)
+  - **ci**: adjust command while publish
+  - **ci**: adjust command pre-commit
+  - **ci**: create publish package gh action (#10)
+  - **semver**: bump version (#8)
+  - **semver**: bump version (#7)
+  - **release**: adding release note when success create github tag
+  - **semver**: bump version (#6)
+  - **cd**: adjust final type coming from breakdown the commit list
+  - **semver**: bump version (#5)
+  - **cd**: remove package manager
+  - **cd**: set different github PAT for merge and release
+  - **cd**: adding type arg and github action for release the npm package
+
+  ### 🐛 Bug Fixes
+  - **compiler**: adjust compiler package config (#9)
+  - **cd**: adjust github pat name
+
 ## 3.0.0
 
 ### Major Changes
