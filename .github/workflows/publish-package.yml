@@ -1,0 +1,81 @@
+name: Publish Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract package info from release tag
+        id: extract-info
+        run: |
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          echo "🏷️  Release tag: $TAG_NAME"
+          
+          # Extract package name and version from tag (format: @scope/package@version or package@version)
+          if [[ "$TAG_NAME" =~ ^(@[^@]+)@(.+)$ ]]; then
+            # Scoped package: @scope/package@version
+            PACKAGE_NAME="${BASH_REMATCH[1]}"
+            VERSION="${BASH_REMATCH[2]}"
+          elif [[ "$TAG_NAME" =~ ^([^@]+)@(.+)$ ]]; then
+            # Non-scoped package: package@version
+            PACKAGE_NAME="${BASH_REMATCH[1]}"
+            VERSION="${BASH_REMATCH[2]}"
+          else
+            echo "❌ Invalid tag format: $TAG_NAME"
+            echo "   Expected format: @scope/package@version or package@version"
+            exit 1
+          fi
+          
+          echo "package_name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Package: $PACKAGE_NAME"
+          echo "📌 Version: $VERSION"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build package
+        run: |
+          PACKAGE_NAME="${{ steps.extract-info.outputs.package_name }}"
+          echo "🔨 Building $PACKAGE_NAME..."
+          pnpm --filter "$PACKAGE_NAME" build
+
+      - name: Publish to npm
+        run: |
+          PACKAGE_NAME="${{ steps.extract-info.outputs.package_name }}"
+          echo "📤 Publishing $PACKAGE_NAME to npm..."
+          pnpm --filter "$PACKAGE_NAME" publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "## 📦 Publish Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Package:** ${{ steps.extract-info.outputs.package_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ steps.extract-info.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Release:** [${{ github.event.release.name }}](${{ github.event.release.html_url }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Successfully published to npm!" >> $GITHUB_STEP_SUMMARY
+
