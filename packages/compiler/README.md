@@ -1,4 +1,4 @@
-# @irfanandriansyah1997/compiler
+# Common Compiler Package
 
 A pre-configured compiler toolkit for building TypeScript/JavaScript packages with Rollup, SWC, and TypeScript. This package simplifies the bundling process by providing sensible defaults while allowing customization.
 
