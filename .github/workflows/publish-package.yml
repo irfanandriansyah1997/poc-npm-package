@@ -50,10 +50,20 @@ jobs:
         with:
           node-version: '20'
           cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@irfanandriansyah1997'
+
+      - name: Create .npmrc
+        run: |
+          echo "auto-install-peers=true > ~/.npmrc"
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_BOT_RELEASE_TOKEN }}" >> ~/.npmrc
+          echo "@tiket:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "@irfanandriansyah1997:registry=https://npm.pkg.github.com" >> ~/.npmrc
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          npm install -g pnpm@^10
+          pnpm install
 
       - name: Build package
         run: |
@@ -61,13 +71,13 @@ jobs:
           echo "🔨 Building $PACKAGE_NAME..."
           pnpm --filter "$PACKAGE_NAME" build
 
-      - name: Publish to npm
+      - name: Publish to GitHub Packages
         run: |
           PACKAGE_NAME="${{ steps.extract-info.outputs.package_name }}"
-          echo "📤 Publishing $PACKAGE_NAME to npm..."
+          echo "📤 Publishing $PACKAGE_NAME to GitHub Packages..."
           pnpm --filter "$PACKAGE_NAME" publish --access public --no-git-checks
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GH_BOT_RELEASE_TOKEN }}
 
       - name: Summary
         run: |
@@ -77,5 +87,5 @@ jobs:
           echo "**Version:** ${{ steps.extract-info.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "**Release:** [${{ github.event.release.name }}](${{ github.event.release.html_url }})" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Successfully published to npm!" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Successfully published to GitHub Packages!" >> $GITHUB_STEP_SUMMARY
 
