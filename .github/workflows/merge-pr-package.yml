@@ -19,11 +19,11 @@ jobs:
       - name: Auto Approve PR
         uses: hmarr/auto-approve-action@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.AUTH_TOKEN }}
 
       - name: Force Merge PR
         run: gh pr merge "$PR_NUMBER" --squash --admin
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
 
