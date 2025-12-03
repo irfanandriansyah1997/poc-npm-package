@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Shared build scripts for the monorepo",
   "bin": {
+    "pkg-create-changeset": "./bin/create-changeset.cjs",
     "pkg-post-build": "./bin/post-build.cjs",
-    "pkg-sync-file": "./bin/sync-file.cjs"
+    "pkg-release": "./bin/release.cjs",
+    "pkg-sync-file": "./bin/sync-file.cjs",
+    "pkg-version": "./bin/version-packages.cjs"
   },
   "files": [
     "bin"

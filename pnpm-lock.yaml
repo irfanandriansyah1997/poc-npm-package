@@ -17,6 +17,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^20.0.0
         version: 20.0.0
+      '@irfanandriansyah1997/scripts':
+        specifier: workspace:*
+        version: link:packages/scripts
       git-cz:
         specifier: ^4.9.0
         version: 4.9.0

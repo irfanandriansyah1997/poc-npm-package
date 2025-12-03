@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "init:dev": "sh etc/shells/init.sh",
-    "prepare": "sh etc/shells/prepare.sh && husky"
+    "prepare": "sh etc/shells/prepare.sh && husky",
+    "release": "pkg-release"
   },
   "commitlint": {
     "extends": [
@@ -29,6 +30,7 @@
     "@changesets/cli": "^2.29.8",
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
+    "@irfanandriansyah1997/scripts": "workspace:*",
     "git-cz": "^4.9.0",
     "husky": "^9.1.7"
   }
