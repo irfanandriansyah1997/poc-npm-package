@@ -1,0 +1,46 @@
+name: Remove beta version tags
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run at 9:00 AM Jakarta time (UTC+7) = 02:00 UTC, Monday to Friday only
+    - cron: '0 2 * * 1-5'
+
+permissions:
+  contents: write
+
+jobs:
+  remove-old-tags:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # fetch all tags
+
+      - name: Delete tags that contain a dash
+        run: |
+          # Fetch all tags
+          git fetch --tags
+
+          # Get all tags containing '-'
+          tags=$(git tag | grep '-')
+
+          if [ -z "$tags" ]; then
+            echo "✅ No tags with dash found."
+            exit 0
+          fi
+
+          echo "🗑️ Tags to delete:"
+          echo "$tags"
+
+          # Delete locally
+          git tag -d $tags
+
+          # Prepare remote delete refs
+          delete_refs=$(echo "$tags" | sed 's/^/:refs\/tags\//')
+
+          # Push all deletions in a single command
+          echo "🚀 Deleting all in one push..."
+          git push origin $delete_refs
