@@ -109,36 +109,10 @@ const runChangesetVersion = (workspaceRoot) => {
   }
 };
 
-const configureGitBot = (workspaceRoot) => {
-  // Configure git to use bot from environment variables or fallback to GitHub Actions bot
-  const botName = process.env.GH_BOT_NAME || "github-actions[bot]";
-  const botEmail =
-    process.env.GH_BOT_EMAIL || "github-actions[bot]@users.noreply.github.com";
-
-  try {
-    execSync(`git config user.name "${botName}"`, {
-      cwd: workspaceRoot,
-      stdio: "pipe",
-    });
-    execSync(`git config user.email "${botEmail}"`, {
-      cwd: workspaceRoot,
-      stdio: "pipe",
-    });
-    console.log(`🤖 Git configured as: ${botName}`);
-    return true;
-  } catch (error) {
-    console.error("❌ Failed to configure git bot:", error.message);
-    return false;
-  }
-};
-
 const commitVersionBump = (workspaceRoot, updatedPackages) => {
   console.log("\n📝 Committing version changes...\n");
 
   try {
-    // Configure git bot for commits
-    configureGitBot(workspaceRoot);
-
     // Stage all changes
     execSync("git add -A", {
       cwd: workspaceRoot,
