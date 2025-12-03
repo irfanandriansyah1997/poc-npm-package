@@ -61,7 +61,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.11.0",
   "files": [
     "dist",
     "rollup.js",

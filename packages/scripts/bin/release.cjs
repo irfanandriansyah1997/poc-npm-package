@@ -115,7 +115,7 @@ const main = async () => {
   console.log("=".repeat(60));
 
   const changesetCmd = `pkg-create-changeset -p "${packageList}" --type "${type}" --from-commits`;
-  if (!runCommand(changesetCmd, { showOutput: false })) {
+  if (!runCommand(changesetCmd, {})) {
     console.error("\n❌ Failed to create changeset");
     process.exit(1);
   }
@@ -127,7 +127,7 @@ const main = async () => {
 
   const versionCmd = "pkg-version --push";
 
-  if (!runCommand(versionCmd, { showOutput: false })) {
+  if (!runCommand(versionCmd, {})) {
     console.error("\n❌ Failed to version packages");
     process.exit(1);
   }
