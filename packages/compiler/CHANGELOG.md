@@ -1,5 +1,12 @@
 # @irfanandriansyah1997/compiler
 
+## 1.1.4
+
+### Patch Changes
+
+- ### 🔧 Chores
+  - **cd**: adjust pr title generation and set user bot while git push
+
 ## 1.1.3
 
 ### Patch Changes
