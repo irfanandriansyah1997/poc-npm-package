@@ -1,0 +1,161 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: [main]
+    types:
+      - opened
+      - reopened
+      - labeled
+      - review_requested
+      - ready_for_review
+      - synchronize
+
+env:
+  NODE_VERSION: 20
+  BASE_BRANCH: "origin/${{ github.base_ref }}"
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+  linting:
+    if: ${{ github.event.pull_request.draft == false }}
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Code Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: Create .npmrc
+        run: |
+          echo "auto-install-peers=true > ~/.npmrc"
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_BOT_RELEASE_TOKEN }}" >> ~/.npmrc
+          echo "@tiket:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "@irfanandriansyah1997:registry=https://npm.pkg.github.com" >> ~/.npmrc
+
+      - name: Install Dependencies
+        run: |
+          npm install -g pnpm@^10
+          pnpm install
+
+      - name: Check stale lockfile
+        run: |
+          if [[ $(git diff pnpm-lock.yaml | wc -c) -gt 0 ]]
+          then
+            printf "✘ There are pnpm-lock.yaml changes that are not commited. Maybe you or someone else updated dependencies but forgot to update pnpm-lock.yaml. Please check.\n"
+            git status --porcelain
+            exit 1
+          else
+            printf "✓ pnpm-lock.yaml is already up to date\n"
+          fi
+
+      - name: Code Linting
+        run: pnpm --filter="[${{ env.BASE_BRANCH }}...${{ env.BRANCH_NAME }}]" run lint
+
+      - name: Type Check
+        run: pnpm --filter="[${{ env.BASE_BRANCH }}...${{ env.BRANCH_NAME }}]" run type:check
+
+  build:
+    if: ${{ github.event.pull_request.draft == false }}
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Code Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: Create .npmrc
+        run: |
+          echo "auto-install-peers=true > ~/.npmrc"
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_BOT_RELEASE_TOKEN }}" >> ~/.npmrc
+          echo "@tiket:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "@irfanandriansyah1997:registry=https://npm.pkg.github.com" >> ~/.npmrc
+
+      - name: Install Dependencies
+        run: |
+          npm install -g pnpm@^10
+          pnpm install
+      
+      - name: Check stale lockfile
+        run: |
+          if [[ $(git diff pnpm-lock.yaml | wc -c) -gt 0 ]]
+          then
+            printf "✘ There are pnpm-lock.yaml changes that are not commited. Maybe you or someone else updated dependencies but forgot to update pnpm-lock.yaml. Please check.\n"
+            git status --porcelain
+            exit 1
+          else
+            printf "✓ pnpm-lock.yaml is already up to date\n"
+          fi
+
+      - name: Build Related File
+        run: pnpm --filter="[${{ env.BASE_BRANCH }}...${{ env.BRANCH_NAME }}]" run build
+
+      - name: Check stale file
+        run: |
+          if [[ $(git diff | wc -c) -gt 0 ]]
+          then
+            printf "✘ There are file changes that are not commited. Maybe you or someone else updated package.json while build. Please check.\n"
+            git status --porcelain
+            exit 1
+          else
+            printf "✓ all files is already up to date\n"
+          fi
+
+  test:
+    if: ${{ github.event.pull_request.draft == false }}
+    name: Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Code Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: Create .npmrc
+        run: |
+          echo "auto-install-peers=true > ~/.npmrc"
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_BOT_RELEASE_TOKEN }}" >> ~/.npmrc
+          echo "@tiket:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "@irfanandriansyah1997:registry=https://npm.pkg.github.com" >> ~/.npmrc
+
+      - name: Install Dependencies
+        run: |
+          npm install -g pnpm@^9.0.0
+          pnpm install
+
+      - name: Check stale lockfile
+        run: |
+          if [[ $(git diff pnpm-lock.yaml | wc -c) -gt 0 ]]
+          then
+            printf "✘ There are pnpm-lock.yaml changes that are not commited. Maybe you or someone else updated dependencies but forgot to update pnpm-lock.yaml. Please check.\n"
+            git status --porcelain
+            exit 1
+          else
+            printf "✓ pnpm-lock.yaml is already up to date\n"
+          fi
+
+      - name: Build Impacted Package
+        run: pnpm --filter="[${{ env.BASE_BRANCH }}...${{ env.BRANCH_NAME }}]" run build
+
+      - name: Run Unit Test
+        run: pnpm --filter="[${{ env.BASE_BRANCH }}...${{ env.BRANCH_NAME }}]" run test
