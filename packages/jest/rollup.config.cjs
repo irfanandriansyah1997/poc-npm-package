@@ -1,3 +1,3 @@
-import { rollupConfig } from '@cashbound-id/compiler/rollup.cjs';
+import { rollupConfig } from '@irfanandriansyah1997/compiler/rollup.cjs';
 
-export default rollupConfig({ baseDir: __dirname });
+export default rollupConfig({ baseDir: __dirname, minify: true });

@@ -16,10 +16,10 @@
     "build:dec": "tsc -p tsconfig.build.json --emitDeclarationOnly",
     "build:ts": "node --max-old-space-size=8192 node_modules/rollup/dist/bin/rollup -c --bundleConfigAsCjs --silent",
     "lint": "eslint",
-    "postbuild": "pkg-post-build --file-name=\"@cashbound-id/jest\"",
+    "postbuild": "pkg-post-build --file-name=\"@irfanandriansyah1997/jest\"",
     "prebuild": "pnpm run ts:patch && pnpm run sync:file && rm -rf dist",
     "predev": "pnpm run ts:patch",
-    "sync:file": "pkg-sync-file --file-name=\"@cashbound-id/jest\"",
+    "sync:file": "pkg-sync-file --file-name=\"@irfanandriansyah1997/jest\"",
     "ts:patch": "ts-patch install -s",
     "type:check": "tsc --noEmit"
   },
@@ -80,5 +80,38 @@
   },
   "bin": {
     "tix-aff-ttd-jest": "./dist/cli/jest-runner.js"
+  },
+  "files": [
+    "dist",
+    "jest.js",
+    "jest.d.ts",
+    "jest.esm.js",
+    "jest.esm.d.ts",
+    "utils.js",
+    "utils.d.ts",
+    "utils.esm.js",
+    "utils.esm.d.ts"
+  ],
+  "exports": {
+    "./jest": {
+      "import": "./jest.esm.js",
+      "require": "./jest.esm.js",
+      "types": "./jest.d.ts"
+    },
+    "./jest.cjs": {
+      "import": "./jest.js",
+      "require": "./jest.js",
+      "types": "./jest.d.ts"
+    },
+    "./utils": {
+      "import": "./utils.esm.js",
+      "require": "./utils.esm.js",
+      "types": "./utils.d.ts"
+    },
+    "./utils.cjs": {
+      "import": "./utils.js",
+      "require": "./utils.js",
+      "types": "./utils.d.ts"
+    }
   }
 }
