@@ -46,11 +46,13 @@ jobs:
 
       - name: Create .npmrc
         run: |
-          rm -rf ~/.npmrc
-          echo "auto-install-peers=true > ~/.npmrc"
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_BOT_RELEASE_TOKEN }}" >> ~/.npmrc
-          echo "@tiket:registry=https://npm.pkg.github.com" >> ~/.npmrc
-          echo "@irfanandriansyah1997:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          cat > .npmrc << EOF
+          registry=https://registry.npmjs.org/
+          @irfanandriansyah1997:registry=https://npm.pkg.github.com
+          @tiket:registry=https://npm.pkg.github.com
+          //npm.pkg.github.com/:_authToken=${{ secrets.GH_BOT_RELEASE_TOKEN }}
+          link-workspace-packages=false
+          EOF
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
