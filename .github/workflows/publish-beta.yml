@@ -149,6 +149,7 @@ jobs:
 
       - name: Create .npmrc
         run: |
+          rm -rf ~/.npmrc
           echo "auto-install-peers=true" > ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_BOT_RELEASE_TOKEN }}" >> ~/.npmrc
           echo "@tiket:registry=https://npm.pkg.github.com" >> ~/.npmrc
