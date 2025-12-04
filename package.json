@@ -6,7 +6,8 @@
   "scripts": {
     "init:dev": "sh etc/shells/init.sh",
     "prepare": "sh etc/shells/prepare.sh && husky",
-    "release": "pkg-release"
+    "release": "pkg-release",
+    "cleanup": "sh etc/shells/cleanup.sh"
   },
   "commitlint": {
     "extends": [
