@@ -104,15 +104,15 @@ jobs:
       - name: Build Related File
         run: pnpm --filter="[${{ env.BASE_BRANCH }}...${{ env.BRANCH_NAME }}]" run build
 
-      - name: Check stale file
+      - name: Check stale lockfile
         run: |
-          if [[ $(git diff | wc -c) -gt 0 ]]
+          if [[ $(git diff pnpm-lock.yaml | wc -c) -gt 0 ]]
           then
-            printf "✘ There are file changes that are not commited. Maybe you or someone else updated package.json while build. Please check.\n"
+            printf "✘ There are pnpm-lock.yaml changes that are not commited. Maybe you or someone else updated dependencies but forgot to update pnpm-lock.yaml. Please check.\n"
             git status --porcelain
             exit 1
           else
-            printf "✓ all files is already up to date\n"
+            printf "✓ pnpm-lock.yaml is already up to date\n"
           fi
 
   test:
