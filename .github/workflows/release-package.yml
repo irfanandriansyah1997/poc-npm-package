@@ -44,6 +44,13 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
 
+      - name: Create .npmrc
+        run: |
+          echo "auto-install-peers=true > ~/.npmrc"
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_BOT_RELEASE_TOKEN }}" >> ~/.npmrc
+          echo "@tiket:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "@irfanandriansyah1997:registry=https://npm.pkg.github.com" >> ~/.npmrc
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
