@@ -1,5 +1,17 @@
 # @irfanandriansyah1997/compiler
 
+## 5.1.0
+
+### Minor Changes
+
+- ### 🔧 Chores
+  - **ci**: adding step remove .npmrc
+  - **semver**: bump version (#22)
+  - **semver**: bump version (#21)
+
+  ### 📚 Documentation
+  - **apps**: register the repo, home and bugs information on each github packages
+
 ## 5.0.1
 
 ### Patch Changes
