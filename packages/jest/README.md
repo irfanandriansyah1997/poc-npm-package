@@ -9,17 +9,17 @@ To install this package, use your preferred package manager:
 
 ### Using pnpm
 ```bash
-pnpm add @cashbound-id/jest
+pnpm add @irfanandriansyah1997/jest
 ```
 
 ### Using npm
 ```bash
-npm install @cashbound-id/jest
+npm install @irfanandriansyah1997/jest
 ```
 
 ### Using yarn
 ```bash
-yarn add @cashbound-id/jest
+yarn add @irfanandriansyah1997/jest
 ```
 
 ## How To Use
@@ -29,7 +29,7 @@ yarn add @cashbound-id/jest
 In your project root, create a `jest.config.cjs` file (if it doesn't already exist) and import the configuration:
 
 ```js
-import jestConfig from '@cashbound-id/jest';
+import jestConfig from '@irfanandriansyah1997/jest';
 
 export default jestConfig({
   collectCoverage: true,
@@ -57,7 +57,7 @@ Since we offer a CLI for running unit tests, you can use our package's CLI comma
 ```json
   "script": {
     ...
-    "test": "cbd-jest"
+    "tix-aff-ttd-jest": "cbd-jest"
     ...
   }
 ```
