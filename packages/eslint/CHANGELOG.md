@@ -1,5 +1,18 @@
 # @irfanandriansyah1997/eslint
 
+## 1.2.0
+
+### Minor Changes
+
+- ### 🔧 Chores
+  - **semver**: bump version (#23)
+  - **ci**: adding step remove .npmrc
+  - **semver**: bump version (#22)
+  - **semver**: bump version (#21)
+
+  ### 📚 Documentation
+  - **apps**: register the repo, home and bugs information on each github packages
+
 ## 1.1.1
 
 ### Patch Changes
