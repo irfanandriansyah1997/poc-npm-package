@@ -1,0 +1,19 @@
+{
+  "extends": "@irfanandriansyah1997/compiler/tsconfig.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": false,
+    "importHelpers": false,
+    "jsx": "react-jsx",
+    "noEmitHelpers": false,
+    "noImplicitReturns": false,
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "rootDir": "src"
+  },
+  "include": ["./src"],
+  "exclude": [
+    "src/**/__tests__/*.test.*"
+  ]
+}

@@ -1,8 +1,7 @@
 {
   "name": "@irfanandriansyah1997/compiler",
   "version": "5.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A reusable compiler configuration template that allows you to use the compiler without setting up the configuration from scratch.", 
   "scripts": {
     "build": "pnpm build:dec && pnpm build:ts",
     "build:dec": "tsc -p tsconfig.build.json --emitDeclarationOnly",

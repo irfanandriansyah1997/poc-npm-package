@@ -1,16 +1,29 @@
 {
-  "name": "eslint",
+  "name": "@irfanandriansyah1997/eslint",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "The default ESLint configuration we use for our Node.js applications in tix aff ttd projects.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pnpm build:dec && pnpm build:ts",
+    "build:dec": "tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "build:ts": "node --max-old-space-size=8192 node_modules/rollup/dist/bin/rollup -c --bundleConfigAsCjs --silent",
+    "lint": "eslint",
+    "postbuild": "pkg-post-build --file-name=\"@irfanandriansyah1997/eslint\"",
+    "prebuild": "pnpm run ts:patch && pnpm run sync:file && rm -rf dist",
+    "predev": "pnpm run ts:patch",
+    "sync:file": "pkg-sync-file --file-name=\"@irfanandriansyah1997/eslint\"",
+    "ts:patch": "ts-patch install -s",
+    "type:check": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@irfanandriansyah1997/compiler": "5.0.0",
+    "@irfanandriansyah1997/scripts": "workspace:*",
     "@rollup/plugin-commonjs": "^28.0.9",
     "@rollup/plugin-swc": "^0.4.0",
     "@rollup/plugin-typescript": "^12.3.0",
@@ -56,5 +69,66 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.1",
     "typescript-transform-paths": "^3.5.5"
+  },
+  "files": [
+    "dist",
+    "non-react-pre-commit.js",
+    "non-react-pre-commit.d.ts",
+    "non-react-pre-commit.esm.js",
+    "non-react-pre-commit.esm.d.ts",
+    "non-react.js",
+    "non-react.d.ts",
+    "non-react.esm.js",
+    "non-react.esm.d.ts",
+    "react-pre-commit.js",
+    "react-pre-commit.d.ts",
+    "react-pre-commit.esm.js",
+    "react-pre-commit.esm.d.ts",
+    "react.js",
+    "react.d.ts",
+    "react.esm.js",
+    "react.esm.d.ts"
+  ],
+  "exports": {
+    "./non-react-pre-commit": {
+      "import": "./non-react-pre-commit.esm.js",
+      "require": "./non-react-pre-commit.esm.js",
+      "types": "./non-react-pre-commit.d.ts"
+    },
+    "./non-react-pre-commit.cjs": {
+      "import": "./non-react-pre-commit.js",
+      "require": "./non-react-pre-commit.js",
+      "types": "./non-react-pre-commit.d.ts"
+    },
+    "./non-react": {
+      "import": "./non-react.esm.js",
+      "require": "./non-react.esm.js",
+      "types": "./non-react.d.ts"
+    },
+    "./non-react.cjs": {
+      "import": "./non-react.js",
+      "require": "./non-react.js",
+      "types": "./non-react.d.ts"
+    },
+    "./react-pre-commit": {
+      "import": "./react-pre-commit.esm.js",
+      "require": "./react-pre-commit.esm.js",
+      "types": "./react-pre-commit.d.ts"
+    },
+    "./react-pre-commit.cjs": {
+      "import": "./react-pre-commit.js",
+      "require": "./react-pre-commit.js",
+      "types": "./react-pre-commit.d.ts"
+    },
+    "./react": {
+      "import": "./react.esm.js",
+      "require": "./react.esm.js",
+      "types": "./react.d.ts"
+    },
+    "./react.cjs": {
+      "import": "./react.js",
+      "require": "./react.js",
+      "types": "./react.d.ts"
+    }
   }
 }
