@@ -63,7 +63,7 @@ const findWorkspaceRoot = () => {
 };
 
 const runCommand = (command, options = {}) => {
-  const { showOutput = true } = options;
+  const { showOutput = false } = options;
 
   console.log(`\n$ ${command}\n`);
 

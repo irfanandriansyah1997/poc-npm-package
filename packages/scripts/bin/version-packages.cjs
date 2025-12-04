@@ -100,7 +100,7 @@ const runChangesetVersion = (workspaceRoot) => {
   try {
     execSync("pnpm changeset version", {
       cwd: workspaceRoot,
-      stdio: "inherit",
+      stdio: "pipe",
     });
     return true;
   } catch {
@@ -313,7 +313,7 @@ const createBranchAndPR = async (updatedPackages, tags, workspaceRoot) => {
     console.log("\n📤 Pushing branch to remote...\n");
     execSync(`git push origin "${branchName}"`, {
       cwd: workspaceRoot,
-      stdio: "inherit",
+      stdio: "pipe",
     });
 
     // Push tags
@@ -323,7 +323,7 @@ const createBranchAndPR = async (updatedPackages, tags, workspaceRoot) => {
         try {
           execSync(`git push origin "${tag}"`, {
             cwd: workspaceRoot,
-            stdio: "inherit",
+            stdio: "pipe",
           });
           console.log(`✅ Pushed tag: ${tag}`);
         } catch {
