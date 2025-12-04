@@ -1,0 +1,19 @@
+{
+  "extends": "@irfanandriansyah1997/compiler/tsconfig.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": false,
+    "declaration": false,
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "eslint.config.mjs",
+    "eslint.pre-commit.config.mjs",
+    "rollup.config.cjs"
+  ]
+}

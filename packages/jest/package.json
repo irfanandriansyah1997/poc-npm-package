@@ -1,0 +1,117 @@
+{
+  "name": "@irfanandriansyah1997/jest",
+  "version": "0.0.0",
+  "description": "A shared Jest configuration to simplify unit test setup across Node.js services.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irfanandriansyah1997/poc-npm-package.git",
+    "directory": "packages/jest"
+  },
+  "homepage": "https://github.com/irfanandriansyah1997/poc-npm-package/tree/main/packages/jest#readme",
+  "bugs": {
+    "url": "https://github.com/irfanandriansyah1997/poc-npm-package/issues"
+  },
+  "scripts": {
+    "build": "pnpm build:dec && pnpm build:ts",
+    "build:dec": "tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "build:ts": "node --max-old-space-size=8192 node_modules/rollup/dist/bin/rollup -c --bundleConfigAsCjs --silent",
+    "lint": "eslint",
+    "postbuild": "pkg-post-build --file-name=\"@irfanandriansyah1997/jest\"",
+    "prebuild": "pnpm run ts:patch && pnpm run sync:file && rm -rf dist",
+    "predev": "pnpm run ts:patch",
+    "sync:file": "pkg-sync-file --file-name=\"@irfanandriansyah1997/jest\"",
+    "ts:patch": "ts-patch install -s",
+    "type:check": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@irfanandriansyah1997/compiler": "5.1.0",
+    "@irfanandriansyah1997/eslint": "1.2.0",
+    "@irfanandriansyah1997/scripts": "workspace:*",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-swc": "^0.4.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.0.0",
+    "@swc/jest": "^0.2.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.0.0",
+    "@types/jest": "^29.5.14",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": ">=10.1.0",
+    "eslint-plugin-jest": "^28.0.0",
+    "eslint-plugin-jsx-a11y": "^6.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-sort-destructure-keys": "^2.0.0",
+    "eslint-plugin-sort-keys-fix": "^1.0.0",
+    "eslint-plugin-typescript-sort-keys": "^3.0.0",
+    "globals": "^16.0.0",
+    "jest": "^28.0.0 || ^29.0.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-watch-typeahead": "^2.0.0",
+    "prettier": ">=3.0.0",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "rollup": "^4.0.0",
+    "ts-patch": "^3.0.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.0.0",
+    "typescript-transform-paths": "^3.5.5"
+  },
+  "peerDependencies": {
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.0.0",
+    "@swc/jest": "^0.2.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.0.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-watch-typeahead": "^2.0.0",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "bin": {
+    "tix-aff-ttd-jest": "./dist/cli/jest-runner.js"
+  },
+  "files": [
+    "dist",
+    "jest.js",
+    "jest.d.ts",
+    "jest.esm.js",
+    "jest.esm.d.ts",
+    "utils.js",
+    "utils.d.ts",
+    "utils.esm.js",
+    "utils.esm.d.ts"
+  ],
+  "exports": {
+    "./jest": {
+      "import": "./jest.esm.js",
+      "require": "./jest.esm.js",
+      "types": "./jest.d.ts"
+    },
+    "./jest.cjs": {
+      "import": "./jest.js",
+      "require": "./jest.js",
+      "types": "./jest.d.ts"
+    },
+    "./utils": {
+      "import": "./utils.esm.js",
+      "require": "./utils.esm.js",
+      "types": "./utils.d.ts"
+    },
+    "./utils.cjs": {
+      "import": "./utils.js",
+      "require": "./utils.js",
+      "types": "./utils.d.ts"
+    }
+  }
+}
