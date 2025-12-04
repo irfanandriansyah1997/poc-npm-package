@@ -1,0 +1,23 @@
+{
+  "js-file":[
+    {
+      "file":"./dist/config/index",
+      "name":"jest",
+      "export-kind":"named export",
+      "entry-point":[
+        "jestConfig"
+      ]
+    },
+    {
+      "file":"./dist/utils/index",
+      "name":"utils",
+      "export-kind":"named export",
+      "entry-point":[
+        "JestBuilder",
+        "getJestMockArgument"
+      ]
+    }
+  ],
+  "static-file":[],
+  "custom-config":[]
+}
