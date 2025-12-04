@@ -1,5 +1,15 @@
 # @irfanandriansyah1997/compiler
 
+## 5.0.0
+
+### Major Changes
+
+- ### 🔧 Chores
+  - **semver**: bump version (#17)
+
+  ### 📚 Documentation
+  - **compiler**: adjust readme (#15)
+
 ## 4.0.0
 
 ### Major Changes
