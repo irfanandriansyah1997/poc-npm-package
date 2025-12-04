@@ -1,0 +1,29 @@
+import type { Linter } from 'eslint';
+
+import eslintJestConfig from './config/jest';
+import eslintReactConfig from './config/react';
+import eslintSharedConfig from './config/shared';
+import { hofEslintConfigGenerator } from './utils/eslint-config';
+
+const templateEslintReactPreCommit: Linter.Config[] = [
+  ...eslintSharedConfig('.tmp_staging/**'),
+  ...eslintReactConfig('./tsconfig.pre-commit.json'),
+  ...eslintJestConfig('.tmp_staging/**/__tests__'),
+  {
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: 'latest',
+        project: ['./tsconfig.pre-commit.json'],
+        sourceType: 'module',
+        tsconfigRootDir: '.'
+      }
+    }
+  }
+];
+
+const eslintReactPreCommit = hofEslintConfigGenerator({
+  defaultConfig: templateEslintReactPreCommit,
+  isPreCommit: true
+});
+
+export default eslintReactPreCommit;

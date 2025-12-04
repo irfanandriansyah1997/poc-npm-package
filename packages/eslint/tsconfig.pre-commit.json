@@ -1,0 +1,12 @@
+{
+  "extends": "@irfanandriansyah1997/compiler/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "emitDeclarationOnly": false,
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./tmp_staging/src/*"]
+    }
+  },
+  "include": ["./.tmp_staging/src"],
+}
