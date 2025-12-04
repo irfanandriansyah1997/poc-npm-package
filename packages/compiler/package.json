@@ -1,7 +1,16 @@
 {
   "name": "@irfanandriansyah1997/compiler",
   "version": "5.0.0",
-  "description": "A reusable compiler configuration template that allows you to use the compiler without setting up the configuration from scratch.", 
+  "description": "A reusable compiler configuration template that allows you to use the compiler without setting up the configuration from scratch.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irfanandriansyah1997/poc-npm-package.git",
+    "directory": "packages/compiler"
+  },
+  "homepage": "https://github.com/irfanandriansyah1997/poc-npm-package/tree/main/packages/compiler#readme",
+  "bugs": {
+    "url": "https://github.com/irfanandriansyah1997/poc-npm-package/issues"
+  },
   "scripts": {
     "build": "pnpm build:dec && pnpm build:ts",
     "build:dec": "tsc -p tsconfig.build.json --emitDeclarationOnly",
