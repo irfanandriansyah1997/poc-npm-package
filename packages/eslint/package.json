@@ -1,7 +1,7 @@
 {
   "name": "@irfanandriansyah1997/eslint",
   "version": "1.0.0",
-  "description": "The default ESLint configuration we use for our Node.js applications in Cashbound projects.",
+  "description": "The default ESLint configuration we use for our Node.js applications in tix aff ttd projects.",
   "scripts": {
     "build": "pnpm build:dec && pnpm build:ts",
     "build:dec": "tsc -p tsconfig.build.json --emitDeclarationOnly",
