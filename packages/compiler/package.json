@@ -1,6 +1,6 @@
 {
   "name": "@irfanandriansyah1997/compiler",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "A reusable compiler configuration template that allows you to use the compiler without setting up the configuration from scratch.",
   "repository": {
     "type": "git",

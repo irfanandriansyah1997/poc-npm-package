@@ -1,5 +1,15 @@
 # @irfanandriansyah1997/compiler
 
+## 5.0.1
+
+### Patch Changes
+
+- ### 🔧 Chores
+  - **semver**: bump version (#21)
+
+  ### 📚 Documentation
+  - **apps**: register the repo, home and bugs information on each github packages
+
 ## 5.0.0
 
 ### Major Changes
