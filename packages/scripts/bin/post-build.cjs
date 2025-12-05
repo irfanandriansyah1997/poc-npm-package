@@ -4,6 +4,23 @@ const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
 
+/**
+ * Ensures the directory exists and writes the file.
+ * If the file path contains directories, it will create them recursively.
+ *
+ * @param {string} filePath - The full path to the file to write.
+ * @param {string} content - The content to write to the file.
+ */
+const ensureDirAndWriteFile = (filePath, content) => {
+  const dir = path.dirname(filePath);
+
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+
+  fs.writeFileSync(filePath, content, "utf8");
+};
+
 /////////////////////////////////////////////////////////////////////////////
 // Generating the public API
 /////////////////////////////////////////////////////////////////////////////
@@ -28,6 +45,18 @@ const generatePublicAPI = (args) => {
     const { "entry-point": entryPoint, "export-kind": kind, file, name } = item;
 
     /**
+     * INFO: Calculate relative path prefix based on directory depth
+     * e.g., "utils/api" has depth 1, so prefix is "../"
+     * e.g., "a/b/api" has depth 2, so prefix is "../../"
+     */
+    const depth = (name.match(/\//g) || []).length;
+    const relativePrefix = depth > 0 ? "../".repeat(depth) : "";
+    // Remove leading "./" from file when adding relative prefix to avoid ".././dist/..."
+    const normalizedFile =
+      depth > 0 && file.startsWith("./") ? file.slice(2) : file;
+    const adjustedFile = `${relativePrefix}${normalizedFile}`;
+
+    /**
      * INFO: Build JS File Path
      */
     const jsFilePath = path.join(dir, `./${name}.js`);
@@ -45,10 +74,10 @@ const generatePublicAPI = (args) => {
 
     switch (kind) {
       case "default export": {
-        modernJSContent = `'use client';\nexport { default } from '${file}.esm';\n`;
-        oldJSContent = `'use client';\nmodule.exports = require('${file}');\n`;
-        modernDTSContent = `export { default } from '${file}.esm';\n`;
-        dtsContent = `export { default } from '${file}';\n`;
+        modernJSContent = `'use client';\nexport { default } from '${adjustedFile}.esm';\n`;
+        oldJSContent = `'use client';\nmodule.exports = require('${adjustedFile}');\n`;
+        modernDTSContent = `export { default } from '${adjustedFile}.esm';\n`;
+        dtsContent = `export { default } from '${adjustedFile}';\n`;
         break;
       }
 
@@ -88,14 +117,14 @@ const generatePublicAPI = (args) => {
             ""
           );
 
-          modernJSContent = `'use client';\nexport { ${formattedEntryPointNonType} } from '${file}.esm';\n`;
+          modernJSContent = `'use client';\nexport { ${formattedEntryPointNonType} } from '${adjustedFile}.esm';\n`;
           oldJSContent = [
             "'use client';",
-            `const { ${formattedEntryPointNonType} } = require('${file}');`,
+            `const { ${formattedEntryPointNonType} } = require('${adjustedFile}');`,
             `module.exports = { ${formattedEntryPointNonType} };`,
           ].join("\n");
-          modernDTSContent = `export { ${formattedEntryPointDTS} } from '${file}.esm';\n`;
-          dtsContent = `export { ${formattedEntryPointDTS} } from '${file}';\n`;
+          modernDTSContent = `export { ${formattedEntryPointDTS} } from '${adjustedFile}.esm';\n`;
+          dtsContent = `export { ${formattedEntryPointDTS} } from '${adjustedFile}';\n`;
         }
         break;
       }
@@ -106,10 +135,10 @@ const generatePublicAPI = (args) => {
       return;
     }
 
-    fs.writeFileSync(jsFilePath, oldJSContent, "utf8");
-    fs.writeFileSync(modernJSFilePath, modernJSContent, "utf8");
-    fs.writeFileSync(dtsFilePath, dtsContent, "utf8");
-    fs.writeFileSync(modernDtsFilePath, modernDTSContent, "utf8");
+    ensureDirAndWriteFile(jsFilePath, oldJSContent);
+    ensureDirAndWriteFile(modernJSFilePath, modernJSContent);
+    ensureDirAndWriteFile(dtsFilePath, dtsContent);
+    ensureDirAndWriteFile(modernDtsFilePath, modernDTSContent);
 
     console.log(`✅ Success create ${item.name}.js and ${item.name}.d.ts`);
   });
@@ -188,7 +217,7 @@ if (argument["--file-name"]) {
     function (_, stdout) {
       if (stdout) {
         const {
-          "js-file": jsFiles,
+          "js-file": jsFiles = [],
         } = require(`${stdout}/etc/config/entrypoint-file.json`);
 
         console.log(stdout);
