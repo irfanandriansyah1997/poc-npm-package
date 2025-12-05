@@ -31,7 +31,7 @@
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.0.0",
-    "@irfanandriansyah1997/compiler": "5.1.0",
+    "@irfanandriansyah1997/compiler": "6.0.0",
     "@irfanandriansyah1997/eslint": "1.2.0",
     "@irfanandriansyah1997/scripts": "workspace:*",
     "@rollup/plugin-commonjs": "^28.0.3",
