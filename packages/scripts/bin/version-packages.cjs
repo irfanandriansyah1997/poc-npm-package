@@ -103,7 +103,8 @@ const runChangesetVersion = (workspaceRoot) => {
       stdio: "pipe",
     });
     return true;
-  } catch {
+  } catch (e) {
+    console.log(e);
     console.error("❌ Failed to run changeset version");
     return false;
   }
