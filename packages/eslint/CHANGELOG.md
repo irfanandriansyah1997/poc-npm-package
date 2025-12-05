@@ -1,5 +1,18 @@
 # @irfanandriansyah1997/eslint
 
+## 2.0.0
+
+### Major Changes
+
+- ### 🔧 Chores
+  - **compiler**: bump version and update the implementation
+  - **semver**: bump version (#30)
+  - **ci**: fix minor bugs while release
+  - **semver**: bump version (#26)
+
+  ### ✨ Features
+  - **package**: create utils package and re-adjust exposes files on several packages (#27)
+
 ## 1.2.0
 
 ### Minor Changes
