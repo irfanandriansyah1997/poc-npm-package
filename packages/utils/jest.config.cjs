@@ -1,4 +1,4 @@
-const { jestConfig } = require('@irfanandriansyah1997/jest/jest.cjs');
+const { jestConfig } = require('@irfanandriansyah1997/jest/jest/index.cjs');
 
 module.exports = jestConfig({
   baseDir: __dirname,
