@@ -1,6 +1,6 @@
 {
   "name": "@irfanandriansyah1997/jest",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A shared Jest configuration to simplify unit test setup across Node.js services.",
   "repository": {
     "type": "git",
