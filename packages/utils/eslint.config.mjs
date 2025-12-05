@@ -1,4 +1,4 @@
-import eslintConfig from '@irfanandriansyah1997/eslint/react.cjs';
+import eslintConfig from '@irfanandriansyah1997/eslint/react/index.cjs';
 import eslintPluginSimpleImportSort from 'eslint-plugin-simple-import-sort';
 import { createRequire } from 'node:module';
 
