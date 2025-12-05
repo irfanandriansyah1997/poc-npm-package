@@ -103,7 +103,7 @@ importers:
         version: 3.7.4
       react:
         specifier: ^17.0.0 || ^18.0.0 || ^19.0.0
-        version: 19.2.0
+        version: 19.2.1
       rollup:
         specifier: ^4.0.0
         version: 4.53.3
@@ -130,7 +130,7 @@ importers:
         version: 9.39.1
       '@irfanandriansyah1997/compiler':
         specifier: 5.0.0
-        version: 5.0.0(@rollup/plugin-commonjs@28.0.9(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.0)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)
+        version: 5.0.0(@rollup/plugin-commonjs@28.0.9(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.1)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)
       '@irfanandriansyah1997/scripts':
         specifier: workspace:*
         version: link:../scripts
@@ -196,7 +196,7 @@ importers:
         version: 3.7.4
       react:
         specifier: ^19.2.0
-        version: 19.2.0
+        version: 19.2.1
       rollup:
         specifier: ^4.53.3
         version: 4.53.3
@@ -220,10 +220,10 @@ importers:
         version: 9.39.1
       '@irfanandriansyah1997/compiler':
         specifier: 5.1.0
-        version: 5.1.0(@rollup/plugin-commonjs@28.0.9(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.0)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)
+        version: 5.1.0(@rollup/plugin-commonjs@28.0.9(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.1)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)
       '@irfanandriansyah1997/eslint':
         specifier: 1.2.0
-        version: 1.2.0(1d39445a788f3604a7319ce57b2f52a3)
+        version: 1.2.0(79b2d29c2c4ce42beb34c564d9614a59)
       '@irfanandriansyah1997/scripts':
         specifier: workspace:*
         version: link:../scripts
@@ -250,7 +250,7 @@ importers:
         version: 6.9.1
       '@testing-library/react':
         specifier: ^16.0.0
-        version: 16.3.0(@testing-library/dom@10.4.1)(react-dom@19.2.1(react@19.2.0))(react@19.2.0)
+        version: 16.3.0(@testing-library/dom@10.4.1)(@types/react@19.2.7)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       '@testing-library/user-event':
         specifier: ^14.0.0
         version: 14.6.1(@testing-library/dom@10.4.1)
@@ -307,7 +307,7 @@ importers:
         version: 3.7.4
       react:
         specifier: ^17.0.0 || ^18.0.0 || ^19.0.0
-        version: 19.2.0
+        version: 19.2.1
       rollup:
         specifier: ^4.0.0
         version: 4.53.3
@@ -326,7 +326,134 @@ importers:
 
   packages/scripts: {}
 
-  packages/utils: {}
+  packages/utils:
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.39.1
+        version: 9.39.1
+      '@irfanandriansyah1997/compiler':
+        specifier: ^5.1.0
+        version: 5.1.0(@rollup/plugin-commonjs@29.0.0(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.1)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)
+      '@irfanandriansyah1997/eslint':
+        specifier: 1.2.0
+        version: 1.2.0(72a67d88e118a38e5028ceeeff704e64)
+      '@irfanandriansyah1997/jest':
+        specifier: ^0.1.0
+        version: 0.1.0(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(@swc/jest@0.2.39(@swc/core@1.15.3))(@testing-library/jest-dom@6.9.1)(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react@19.2.7)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(@testing-library/user-event@14.6.1(@testing-library/dom@10.4.1))(jest-environment-jsdom@29.7.0)(jest-watch-typeahead@2.2.2(jest@30.2.0(@types/node@22.19.1)))(react@19.2.1)
+      '@irfanandriansyah1997/scripts':
+        specifier: workspace:*
+        version: link:../scripts
+      '@rollup/plugin-commonjs':
+        specifier: ^29.0.0
+        version: 29.0.0(rollup@4.53.3)
+      '@rollup/plugin-swc':
+        specifier: ^0.4.0
+        version: 0.4.0(@swc/core@1.15.3)(rollup@4.53.3)
+      '@rollup/plugin-terser':
+        specifier: ^0.4.4
+        version: 0.4.4(rollup@4.53.3)
+      '@rollup/plugin-typescript':
+        specifier: ^12.3.0
+        version: 12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3)
+      '@swc/cli':
+        specifier: ^0.6.0
+        version: 0.6.0(@swc/core@1.15.3)(chokidar@4.0.1)
+      '@swc/core':
+        specifier: ^1.15.3
+        version: 1.15.3
+      '@swc/jest':
+        specifier: ^0.2.39
+        version: 0.2.39(@swc/core@1.15.3)
+      '@testing-library/jest-dom':
+        specifier: ^6.9.1
+        version: 6.9.1
+      '@testing-library/react':
+        specifier: ^16.3.0
+        version: 16.3.0(@testing-library/dom@10.4.1)(@types/react@19.2.7)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@testing-library/user-event':
+        specifier: ^14.6.1
+        version: 14.6.1(@testing-library/dom@10.4.1)
+      '@types/jest':
+        specifier: ^29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: ^22.19.1
+        version: 22.19.1
+      '@types/react':
+        specifier: ^19.2.7
+        version: 19.2.7
+      dompurify:
+        specifier: ^3.3.0
+        version: 3.3.0
+      error:
+        specifier: ^10.4.0
+        version: 10.4.0
+      eslint:
+        specifier: ^9.39.1
+        version: 9.39.1(jiti@2.6.1)
+      eslint-config-prettier:
+        specifier: ^10.1.8
+        version: 10.1.8(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-jest:
+        specifier: ^29.2.1
+        version: 29.2.1(@typescript-eslint/eslint-plugin@8.48.1(@typescript-eslint/parser@8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(jest@30.2.0(@types/node@22.19.1))(typescript@5.9.3)
+      eslint-plugin-jsx-a11y:
+        specifier: ^6.10.2
+        version: 6.10.2(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-prettier:
+        specifier: ^5.5.4
+        version: 5.5.4(eslint-config-prettier@10.1.8(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(prettier@3.7.4)
+      eslint-plugin-react:
+        specifier: ^7.37.5
+        version: 7.37.5(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-react-hooks:
+        specifier: ^7.0.1
+        version: 7.0.1(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-simple-import-sort:
+        specifier: ^12.1.1
+        version: 12.1.1(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-sort-destructure-keys:
+        specifier: ^2.0.0
+        version: 2.0.0(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-sort-keys-fix:
+        specifier: ^1.1.2
+        version: 1.1.2
+      eslint-plugin-typescript-sort-keys:
+        specifier: ^3.3.0
+        version: 3.3.0(@typescript-eslint/parser@8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      jest:
+        specifier: ^30.2.0
+        version: 30.2.0(@types/node@22.19.1)
+      jest-environment-jsdom:
+        specifier: ^29.7.0
+        version: 29.7.0
+      jest-watch-typeahead:
+        specifier: ^2.2.2
+        version: 2.2.2(jest@30.2.0(@types/node@22.19.1))
+      prettier:
+        specifier: ^3.7.4
+        version: 3.7.4
+      prettier-2:
+        specifier: npm:prettier@^2
+        version: prettier@2.8.8
+      react:
+        specifier: ^19.2.1
+        version: 19.2.1
+      rollup:
+        specifier: ^4.53.3
+        version: 4.53.3
+      ts-patch:
+        specifier: ^3.3.0
+        version: 3.3.0
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      typescript-eslint:
+        specifier: ^8.48.1
+        version: 8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      typescript-transform-paths:
+        specifier: ^3.5.5
+        version: 3.5.5(typescript@5.9.3)
 
 packages:
 
@@ -750,6 +877,20 @@ packages:
       typescript-eslint: ^8.48.1
       typescript-transform-paths: ^3.5.5
 
+  '@irfanandriansyah1997/jest@0.1.0':
+    resolution: {integrity: sha512-IV96di/2u+pzoGCo+vYL/urVWOYpjK3G90DBwQYvYUL1XUIWs8skPFtCbuYj3iuEyvznTKpQo1hIJx1mEkcL/Q==, tarball: https://npm.pkg.github.com/download/@irfanandriansyah1997/jest/0.1.0/4a02dc1642f96421343e12df7cc0e913ee40fee9}
+    hasBin: true
+    peerDependencies:
+      '@swc/cli': ^0.6.0
+      '@swc/core': ^1.0.0
+      '@swc/jest': ^0.2.0
+      '@testing-library/jest-dom': ^6.0.0
+      '@testing-library/react': ^16.0.0
+      '@testing-library/user-event': ^14.0.0
+      jest-environment-jsdom: ^29.7.0
+      jest-watch-typeahead: ^2.0.0
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+
   '@isaacs/balanced-match@4.0.1':
     resolution: {integrity: sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ==}
     engines: {node: 20 || >=22}
@@ -1078,6 +1219,15 @@ packages:
 
   '@rollup/plugin-commonjs@28.0.9':
     resolution: {integrity: sha512-PIR4/OHZ79romx0BVVll/PkwWpJ7e5lsqFa3gFfcrFPWwLXLV39JVUzQV9RKjWerE7B845Hqjj9VYlQeieZ2dA==}
+    engines: {node: '>=16.0.0 || 14 >= 14.17'}
+    peerDependencies:
+      rollup: ^2.68.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+
+  '@rollup/plugin-commonjs@29.0.0':
+    resolution: {integrity: sha512-U2YHaxR2cU/yAiwKJtJRhnyLk7cifnQw0zUpISsocBDoHDJn+HTV74ABqnwr5bEgWUwFZC9oFL6wLe21lHu5eQ==}
     engines: {node: '>=16.0.0 || 14 >= 14.17'}
     peerDependencies:
       rollup: ^2.68.0||^3.0.0||^4.0.0
@@ -1445,6 +1595,9 @@ packages:
   '@types/node@22.19.1':
     resolution: {integrity: sha512-LCCV0HdSZZZb34qifBsyWlUmok6W7ouER+oQIGBScS8EsZsQbrtFTUrDX4hOl+CS6p7cnNC4td+qrSVGSCTUfQ==}
 
+  '@types/react@19.2.7':
+    resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
+
   '@types/rollup@0.54.0':
     resolution: {integrity: sha512-oeYztLHhQ98jnr+u2cs1c3tHOGtpzrm9DJlIdEjznwoXWidUbrI+X6ib7zCkPIbB7eJ7VbbKNQ5n/bPnSg6Naw==}
     deprecated: This is a stub types definition for rollup (https://github.com/rollup/rollup). rollup provides its own type definitions, so you don't need @types/rollup installed!
@@ -1457,6 +1610,9 @@ packages:
 
   '@types/tough-cookie@4.0.5':
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
+
+  '@types/trusted-types@2.0.7':
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -2130,6 +2286,9 @@ packages:
     resolution: {integrity: sha512-AZL67abkUzIuvcHqk7c09cezpGNcxUxU4Ioi/05xHk4DQeTkWmGYftIE6ctU6AEt+Gn4n1lDStOtj7FKycP71A==}
     engines: {node: '>=8'}
 
+  csstype@3.2.3:
+    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
 
@@ -2239,6 +2398,9 @@ packages:
     engines: {node: '>=12'}
     deprecated: Use your platform's native DOMException instead
 
+  dompurify@3.3.0:
+    resolution: {integrity: sha512-r+f6MYR1gGN1eJv0TVQbhA7if/U7P87cdPl3HN5rikqaBSBxLiCb/b9O+2eG0cxz0ghyU+mU1QkbsOwERMYlWQ==}
+
   dot-prop@5.3.0:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
     engines: {node: '>=8'}
@@ -2277,6 +2439,9 @@ packages:
 
   error-ex@1.3.4:
     resolution: {integrity: sha512-sqQamAnR14VgCr1A618A3sGrygcpK+HEbenA/HiEAkkUwcZIIB/tgWqHFxWgOyDh4nB4JCRimh79dR5Ywc9MDQ==}
+
+  error@10.4.0:
+    resolution: {integrity: sha512-YxIFEJuhgcICugOUvRx5th0UM+ActZ9sjY0QJmeVwsQdvosZ7kYzc9QqS0Da3R5iUmgU5meGIxh0xBeZpMVeLw==}
 
   es-abstract@1.24.0:
     resolution: {integrity: sha512-WSzPgsdLtTcQwm4CROfS5ju2Wa1QQcVeT37jFjYzdFz1r9ahadC8B8/a4qxJxM+09F18iumCdRmlr96ZYkQvEg==}
@@ -2350,6 +2515,19 @@ packages:
       jest:
         optional: true
 
+  eslint-plugin-jest@29.2.1:
+    resolution: {integrity: sha512-0WLIezrIxitUGbjMIGwznVzSIp0uFJV0PZ2fiSvpyVcxe+QMXKUt7MRhUpzdbctnnLwiOTOFkACplgB0wAglFw==}
+    engines: {node: ^20.12.0 || ^22.0.0 || >=24.0.0}
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': ^8.0.0
+      eslint: ^8.57.0 || ^9.0.0
+      jest: '*'
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
+      jest:
+        optional: true
+
   eslint-plugin-jsx-a11y@6.10.2:
     resolution: {integrity: sha512-scB3nz4WmG75pV8+3eRUQOHZlNSUhFNq37xnpgRkCCELU3XMvXAxLk1eqWWyE22Ki4Q01Fnsw9BA3cJHDPgn2Q==}
     engines: {node: '>=4.0'}
@@ -2373,6 +2551,12 @@ packages:
   eslint-plugin-react-hooks@5.2.0:
     resolution: {integrity: sha512-+f15FfK64YQwZdJNELETdn5ibXEUQmW1DZL6KXhNnc2heoy/sg9VJJeT7n8TlMWouzWqSWavFkIhHyIbIAEapg==}
     engines: {node: '>=10'}
+    peerDependencies:
+      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
+
+  eslint-plugin-react-hooks@7.0.1:
+    resolution: {integrity: sha512-O0d0m04evaNzEPoSW+59Mezf8Qt0InfgGIBJnpC0h3NH/WjUAR7BIKUfysC6todmtiZ/A0oUVS8Gce0WhBrHsA==}
+    engines: {node: '>=18'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
 
@@ -2760,6 +2944,12 @@ packages:
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
+
+  hermes-estree@0.25.1:
+    resolution: {integrity: sha512-0wUoCcLp+5Ev5pDW2OriHC2MJCbwLwuRx+gAqMTOkGKJJiBCLjtrvy4PWUGn6MIVefecRpzoOZ/UV6iGdOr+Cw==}
+
+  hermes-parser@0.25.1:
+    resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
   html-encoding-sniffer@3.0.0:
     resolution: {integrity: sha512-oWv4T4yJ52iKrufjnyZPkrN0CH3QnrUqdB6In1g5Fe1mia8GmF36gnfNySxoZtxD5+NmYw1EElVXiBk93UeskA==}
@@ -3827,8 +4017,8 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react@19.2.0:
-    resolution: {integrity: sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ==}
+  react@19.2.1:
+    resolution: {integrity: sha512-DGrYcCWK7tvYMnWh79yrPHt+vdx9tY+1gPZa7nJQtO/p8bLTDaHp4dzwEhQB7pZ4Xe3ok4XKuEPrVuc+wlpkmw==}
     engines: {node: '>=0.10.0'}
 
   read-yaml-file@1.1.0:
@@ -4440,6 +4630,15 @@ packages:
     resolution: {integrity: sha512-4LCcse/U2MHZ63HAJVE+v71o7yOdIe4cZ70Wpf8D/IyjDKYQLV5GD46B+hSTjJsvV5PztjvHoU580EftxjDZFQ==}
     engines: {node: '>=12.20'}
 
+  zod-validation-error@4.0.2:
+    resolution: {integrity: sha512-Q6/nZLe6jxuU80qb/4uJ4t5v2VEZ44lzQjPDhYJNztRQ4wyWc6VF3D3Kb/fAuPetZQnhS3hnajCf9CsWesghLQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      zod: ^3.25.0 || ^4.0.0
+
+  zod@4.1.13:
+    resolution: {integrity: sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig==}
+
 snapshots:
 
   '@adobe/css-tools@4.4.4': {}
@@ -4971,7 +5170,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.19.1
 
-  '@irfanandriansyah1997/compiler@5.0.0(@rollup/plugin-commonjs@28.0.9(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.0)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)':
+  '@irfanandriansyah1997/compiler@5.0.0(@rollup/plugin-commonjs@28.0.9(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.1)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
       '@rollup/plugin-commonjs': 28.0.9(rollup@4.53.3)
       '@rollup/plugin-swc': 0.4.0(@swc/core@1.15.3)(rollup@4.53.3)
@@ -4979,12 +5178,12 @@ snapshots:
       '@rollup/plugin-typescript': 12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3)
       '@swc/cli': 0.6.0(@swc/core@1.15.3)(chokidar@4.0.1)
       '@swc/core': 1.15.3
-      react: 19.2.0
+      react: 19.2.1
       rollup: 4.53.3
       typescript: 5.9.3
       typescript-transform-paths: 3.5.5(typescript@5.9.3)
 
-  '@irfanandriansyah1997/compiler@5.1.0(@rollup/plugin-commonjs@28.0.9(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.0)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)':
+  '@irfanandriansyah1997/compiler@5.1.0(@rollup/plugin-commonjs@28.0.9(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.1)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
       '@rollup/plugin-commonjs': 28.0.9(rollup@4.53.3)
       '@rollup/plugin-swc': 0.4.0(@swc/core@1.15.3)(rollup@4.53.3)
@@ -4992,12 +5191,45 @@ snapshots:
       '@rollup/plugin-typescript': 12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3)
       '@swc/cli': 0.6.0(@swc/core@1.15.3)(chokidar@4.0.1)
       '@swc/core': 1.15.3
-      react: 19.2.0
+      react: 19.2.1
       rollup: 4.53.3
       typescript: 5.9.3
       typescript-transform-paths: 3.5.5(typescript@5.9.3)
 
-  '@irfanandriansyah1997/eslint@1.2.0(1d39445a788f3604a7319ce57b2f52a3)':
+  '@irfanandriansyah1997/compiler@5.1.0(@rollup/plugin-commonjs@29.0.0(rollup@4.53.3))(@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3))(@rollup/plugin-terser@0.4.4(rollup@4.53.3))(@rollup/plugin-typescript@12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3))(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(react@19.2.1)(rollup@4.53.3)(typescript-transform-paths@3.5.5(typescript@5.9.3))(typescript@5.9.3)':
+    dependencies:
+      '@rollup/plugin-commonjs': 29.0.0(rollup@4.53.3)
+      '@rollup/plugin-swc': 0.4.0(@swc/core@1.15.3)(rollup@4.53.3)
+      '@rollup/plugin-terser': 0.4.4(rollup@4.53.3)
+      '@rollup/plugin-typescript': 12.3.0(rollup@4.53.3)(tslib@2.8.1)(typescript@5.9.3)
+      '@swc/cli': 0.6.0(@swc/core@1.15.3)(chokidar@4.0.1)
+      '@swc/core': 1.15.3
+      react: 19.2.1
+      rollup: 4.53.3
+      typescript: 5.9.3
+      typescript-transform-paths: 3.5.5(typescript@5.9.3)
+
+  '@irfanandriansyah1997/eslint@1.2.0(72a67d88e118a38e5028ceeeff704e64)':
+    dependencies:
+      '@eslint/js': 9.39.1
+      eslint: 9.39.1(jiti@2.6.1)
+      eslint-config-prettier: 10.1.8(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-jest: 29.2.1(@typescript-eslint/eslint-plugin@8.48.1(@typescript-eslint/parser@8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(jest@30.2.0(@types/node@22.19.1))(typescript@5.9.3)
+      eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-prettier: 5.5.4(eslint-config-prettier@10.1.8(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(prettier@3.7.4)
+      eslint-plugin-react: 7.37.5(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-react-hooks: 7.0.1(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-sort-destructure-keys: 2.0.0(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-sort-keys-fix: 1.1.2
+      eslint-plugin-typescript-sort-keys: 3.3.0(@typescript-eslint/parser@8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      jest: 30.2.0(@types/node@22.19.1)
+      prettier: 3.7.4
+      react: 19.2.1
+      typescript: 5.9.3
+      typescript-eslint: 8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      typescript-transform-paths: 3.5.5(typescript@5.9.3)
+
+  '@irfanandriansyah1997/eslint@1.2.0(79b2d29c2c4ce42beb34c564d9614a59)':
     dependencies:
       '@eslint/js': 9.39.1
       eslint: 9.39.1(jiti@2.6.1)
@@ -5012,10 +5244,22 @@ snapshots:
       eslint-plugin-typescript-sort-keys: 3.3.0(@typescript-eslint/parser@8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       jest: 29.7.0(@types/node@22.19.1)
       prettier: 3.7.4
-      react: 19.2.0
+      react: 19.2.1
       typescript: 5.9.3
       typescript-eslint: 8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       typescript-transform-paths: 3.5.5(typescript@5.9.3)
+
+  '@irfanandriansyah1997/jest@0.1.0(@swc/cli@0.6.0(@swc/core@1.15.3)(chokidar@4.0.1))(@swc/core@1.15.3)(@swc/jest@0.2.39(@swc/core@1.15.3))(@testing-library/jest-dom@6.9.1)(@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react@19.2.7)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(@testing-library/user-event@14.6.1(@testing-library/dom@10.4.1))(jest-environment-jsdom@29.7.0)(jest-watch-typeahead@2.2.2(jest@30.2.0(@types/node@22.19.1)))(react@19.2.1)':
+    dependencies:
+      '@swc/cli': 0.6.0(@swc/core@1.15.3)(chokidar@4.0.1)
+      '@swc/core': 1.15.3
+      '@swc/jest': 0.2.39(@swc/core@1.15.3)
+      '@testing-library/jest-dom': 6.9.1
+      '@testing-library/react': 16.3.0(@testing-library/dom@10.4.1)(@types/react@19.2.7)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@testing-library/user-event': 14.6.1(@testing-library/dom@10.4.1)
+      jest-environment-jsdom: 29.7.0
+      jest-watch-typeahead: 2.2.2(jest@30.2.0(@types/node@22.19.1))
+      react: 19.2.1
 
   '@isaacs/balanced-match@4.0.1': {}
 
@@ -5535,6 +5779,18 @@ snapshots:
     optionalDependencies:
       rollup: 4.53.3
 
+  '@rollup/plugin-commonjs@29.0.0(rollup@4.53.3)':
+    dependencies:
+      '@rollup/pluginutils': 5.3.0(rollup@4.53.3)
+      commondir: 1.0.1
+      estree-walker: 2.0.2
+      fdir: 6.5.0(picomatch@4.0.3)
+      is-reference: 1.2.1
+      magic-string: 0.30.21
+      picomatch: 4.0.3
+    optionalDependencies:
+      rollup: 4.53.3
+
   '@rollup/plugin-swc@0.4.0(@swc/core@1.15.3)(rollup@4.53.3)':
     dependencies:
       '@rollup/pluginutils': 5.3.0(rollup@4.53.3)
@@ -5754,12 +6010,14 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(react-dom@19.2.1(react@19.2.0))(react@19.2.0)':
+  '@testing-library/react@16.3.0(@testing-library/dom@10.4.1)(@types/react@19.2.7)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@testing-library/dom': 10.4.1
-      react: 19.2.0
-      react-dom: 19.2.1(react@19.2.0)
+      react: 19.2.1
+      react-dom: 19.2.1(react@19.2.1)
+    optionalDependencies:
+      '@types/react': 19.2.7
 
   '@testing-library/user-event@14.6.1(@testing-library/dom@10.4.1)':
     dependencies:
@@ -5846,6 +6104,10 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
+  '@types/react@19.2.7':
+    dependencies:
+      csstype: 3.2.3
+
   '@types/rollup@0.54.0':
     dependencies:
       rollup: 4.53.3
@@ -5855,6 +6117,9 @@ snapshots:
   '@types/stack-utils@2.0.3': {}
 
   '@types/tough-cookie@4.0.5': {}
+
+  '@types/trusted-types@2.0.7':
+    optional: true
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -6635,6 +6900,8 @@ snapshots:
     dependencies:
       cssom: 0.3.8
 
+  csstype@3.2.3: {}
+
   damerau-levenshtein@1.0.8: {}
 
   dargs@8.1.0: {}
@@ -6721,6 +6988,10 @@ snapshots:
     dependencies:
       webidl-conversions: 7.0.0
 
+  dompurify@3.3.0:
+    optionalDependencies:
+      '@types/trusted-types': 2.0.7
+
   dot-prop@5.3.0:
     dependencies:
       is-obj: 2.0.0
@@ -6753,6 +7024,8 @@ snapshots:
   error-ex@1.3.4:
     dependencies:
       is-arrayish: 0.2.1
+
+  error@10.4.0: {}
 
   es-abstract@1.24.0:
     dependencies:
@@ -6897,6 +7170,17 @@ snapshots:
       - supports-color
       - typescript
 
+  eslint-plugin-jest@29.2.1(@typescript-eslint/eslint-plugin@8.48.1(@typescript-eslint/parser@8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(jest@30.2.0(@types/node@22.19.1))(typescript@5.9.3):
+    dependencies:
+      '@typescript-eslint/utils': 8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      eslint: 9.39.1(jiti@2.6.1)
+    optionalDependencies:
+      '@typescript-eslint/eslint-plugin': 8.48.1(@typescript-eslint/parser@8.48.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      jest: 30.2.0(@types/node@22.19.1)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
   eslint-plugin-jsx-a11y@6.10.2(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       aria-query: 5.3.2
@@ -6928,6 +7212,17 @@ snapshots:
   eslint-plugin-react-hooks@5.2.0(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.1(jiti@2.6.1)
+
+  eslint-plugin-react-hooks@7.0.1(eslint@9.39.1(jiti@2.6.1)):
+    dependencies:
+      '@babel/core': 7.28.5
+      '@babel/parser': 7.28.5
+      eslint: 9.39.1(jiti@2.6.1)
+      hermes-parser: 0.25.1
+      zod: 4.1.13
+      zod-validation-error: 4.0.2(zod@4.1.13)
+    transitivePeerDependencies:
+      - supports-color
 
   eslint-plugin-react@7.37.5(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
@@ -7398,6 +7693,12 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
+
+  hermes-estree@0.25.1: {}
+
+  hermes-parser@0.25.1:
+    dependencies:
+      hermes-estree: 0.25.1
 
   html-encoding-sniffer@3.0.0:
     dependencies:
@@ -8277,6 +8578,17 @@ snapshots:
       string-length: 5.0.1
       strip-ansi: 7.1.2
 
+  jest-watch-typeahead@2.2.2(jest@30.2.0(@types/node@22.19.1)):
+    dependencies:
+      ansi-escapes: 6.2.1
+      chalk: 5.6.2
+      jest: 30.2.0(@types/node@22.19.1)
+      jest-regex-util: 29.6.3
+      jest-watcher: 29.7.0
+      slash: 5.1.0
+      string-length: 5.0.1
+      strip-ansi: 7.1.2
+
   jest-watcher@29.7.0:
     dependencies:
       '@jest/test-result': 29.7.0
@@ -8787,9 +9099,9 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  react-dom@19.2.1(react@19.2.0):
+  react-dom@19.2.1(react@19.2.1):
     dependencies:
-      react: 19.2.0
+      react: 19.2.1
       scheduler: 0.27.0
 
   react-is@16.13.1: {}
@@ -8798,7 +9110,7 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react@19.2.0: {}
+  react@19.2.1: {}
 
   read-yaml-file@1.1.0:
     dependencies:
@@ -9531,3 +9843,9 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.2.2: {}
+
+  zod-validation-error@4.0.2(zod@4.1.13):
+    dependencies:
+      zod: 4.1.13
+
+  zod@4.1.13: {}

@@ -73,22 +73,22 @@
   "license": "ISC",
   "files": [
     "dist",
-    "rollup.js",
-    "rollup.d.ts",
-    "rollup.esm.js",
-    "rollup.esm.d.ts"
+    "config/rollup.js",
+    "config/rollup.d.ts",
+    "config/rollup.esm.js",
+    "config/rollup.esm.d.ts"
   ],
   "exports": {
-    "./tsconfig.json": "./dist/tsconfig/tsconfig.json",
-    "./rollup": {
-      "import": "./rollup.esm.js",
-      "require": "./rollup.esm.js",
-      "types": "./rollup.d.ts"
+    "./config/tsconfig.json": "./dist/tsconfig/tsconfig.json",
+    "./config/rollup": {
+      "import": "./config/rollup.esm.js",
+      "require": "./config/rollup.esm.js",
+      "types": "./config/rollup.d.ts"
     },
-    "./rollup.cjs": {
-      "import": "./rollup.js",
-      "require": "./rollup.js",
-      "types": "./rollup.d.ts"
+    "./config/rollup.cjs": {
+      "import": "./config/rollup.js",
+      "require": "./config/rollup.js",
+      "types": "./config/rollup.d.ts"
     }
   }
 }

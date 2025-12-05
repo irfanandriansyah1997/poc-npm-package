@@ -81,63 +81,63 @@
   },
   "files": [
     "dist",
-    "non-react-pre-commit.js",
-    "non-react-pre-commit.d.ts",
-    "non-react-pre-commit.esm.js",
-    "non-react-pre-commit.esm.d.ts",
-    "non-react.js",
-    "non-react.d.ts",
-    "non-react.esm.js",
-    "non-react.esm.d.ts",
-    "react-pre-commit.js",
-    "react-pre-commit.d.ts",
-    "react-pre-commit.esm.js",
-    "react-pre-commit.esm.d.ts",
-    "react.js",
-    "react.d.ts",
-    "react.esm.js",
-    "react.esm.d.ts"
+    "non-react/pre-commit.js",
+    "non-react/pre-commit.d.ts",
+    "non-react/pre-commit.esm.js",
+    "non-react/pre-commit.esm.d.ts",
+    "non-react/index.js",
+    "non-react/index.d.ts",
+    "non-react/index.esm.js",
+    "non-react/index.esm.d.ts",
+    "react/pre-commit.js",
+    "react/pre-commit.d.ts",
+    "react/pre-commit.esm.js",
+    "react/pre-commit.esm.d.ts",
+    "react/index.js",
+    "react/index.d.ts",
+    "react/index.esm.js",
+    "react/index.esm.d.ts"
   ],
   "exports": {
-    "./non-react-pre-commit": {
-      "import": "./non-react-pre-commit.esm.js",
-      "require": "./non-react-pre-commit.esm.js",
-      "types": "./non-react-pre-commit.d.ts"
+    "./non-react/pre-commit": {
+      "import": "./non-react/pre-commit.esm.js",
+      "require": "./non-react/pre-commit.esm.js",
+      "types": "./non-react/pre-commit.d.ts"
     },
-    "./non-react-pre-commit.cjs": {
-      "import": "./non-react-pre-commit.js",
-      "require": "./non-react-pre-commit.js",
-      "types": "./non-react-pre-commit.d.ts"
+    "./non-react/pre-commit.cjs": {
+      "import": "./non-react/pre-commit.js",
+      "require": "./non-react/pre-commit.js",
+      "types": "./non-react/pre-commit.d.ts"
     },
-    "./non-react": {
-      "import": "./non-react.esm.js",
-      "require": "./non-react.esm.js",
-      "types": "./non-react.d.ts"
+    "./non-react/index": {
+      "import": "./non-react/index.esm.js",
+      "require": "./non-react/index.esm.js",
+      "types": "./non-react/index.d.ts"
     },
-    "./non-react.cjs": {
-      "import": "./non-react.js",
-      "require": "./non-react.js",
-      "types": "./non-react.d.ts"
+    "./non-react/index.cjs": {
+      "import": "./non-react/index.js",
+      "require": "./non-react/index.js",
+      "types": "./non-react/index.d.ts"
     },
-    "./react-pre-commit": {
-      "import": "./react-pre-commit.esm.js",
-      "require": "./react-pre-commit.esm.js",
-      "types": "./react-pre-commit.d.ts"
+    "./react/pre-commit": {
+      "import": "./react/pre-commit.esm.js",
+      "require": "./react/pre-commit.esm.js",
+      "types": "./react/pre-commit.d.ts"
     },
-    "./react-pre-commit.cjs": {
-      "import": "./react-pre-commit.js",
-      "require": "./react-pre-commit.js",
-      "types": "./react-pre-commit.d.ts"
+    "./react/pre-commit.cjs": {
+      "import": "./react/pre-commit.js",
+      "require": "./react/pre-commit.js",
+      "types": "./react/pre-commit.d.ts"
     },
-    "./react": {
-      "import": "./react.esm.js",
-      "require": "./react.esm.js",
-      "types": "./react.d.ts"
+    "./react/index": {
+      "import": "./react/index.esm.js",
+      "require": "./react/index.esm.js",
+      "types": "./react/index.d.ts"
     },
-    "./react.cjs": {
-      "import": "./react.js",
-      "require": "./react.js",
-      "types": "./react.d.ts"
+    "./react/index.cjs": {
+      "import": "./react/index.js",
+      "require": "./react/index.js",
+      "types": "./react/index.d.ts"
     }
   }
 }

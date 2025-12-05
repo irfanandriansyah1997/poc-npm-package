@@ -83,35 +83,35 @@
   },
   "files": [
     "dist",
-    "jest.js",
-    "jest.d.ts",
-    "jest.esm.js",
-    "jest.esm.d.ts",
-    "utils.js",
-    "utils.d.ts",
-    "utils.esm.js",
-    "utils.esm.d.ts"
+    "jest/index.js",
+    "jest/index.d.ts",
+    "jest/index.esm.js",
+    "jest/index.esm.d.ts",
+    "jest/utils.js",
+    "jest/utils.d.ts",
+    "jest/utils.esm.js",
+    "jest/utils.esm.d.ts"
   ],
   "exports": {
-    "./jest": {
-      "import": "./jest.esm.js",
-      "require": "./jest.esm.js",
-      "types": "./jest.d.ts"
+    "./jest/index": {
+      "import": "./jest/index.esm.js",
+      "require": "./jest/index.esm.js",
+      "types": "./jest/index.d.ts"
     },
-    "./jest.cjs": {
-      "import": "./jest.js",
-      "require": "./jest.js",
-      "types": "./jest.d.ts"
+    "./jest/index.cjs": {
+      "import": "./jest/index.js",
+      "require": "./jest/index.js",
+      "types": "./jest/index.d.ts"
     },
-    "./utils": {
-      "import": "./utils.esm.js",
-      "require": "./utils.esm.js",
-      "types": "./utils.d.ts"
+    "./jest/utils": {
+      "import": "./jest/utils.esm.js",
+      "require": "./jest/utils.esm.js",
+      "types": "./jest/utils.d.ts"
     },
-    "./utils.cjs": {
-      "import": "./utils.js",
-      "require": "./utils.js",
-      "types": "./utils.d.ts"
+    "./jest/utils.cjs": {
+      "import": "./jest/utils.js",
+      "require": "./jest/utils.js",
+      "types": "./jest/utils.d.ts"
     }
   }
 }

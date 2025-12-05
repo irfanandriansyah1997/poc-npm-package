@@ -2,7 +2,7 @@
   "js-file":[
     {
       "file":"./dist/config/index",
-      "name":"jest",
+      "name":"jest/index",
       "export-kind":"named export",
       "entry-point":[
         "jestConfig"
@@ -10,7 +10,7 @@
     },
     {
       "file":"./dist/utils/index",
-      "name":"utils",
+      "name":"jest/utils",
       "export-kind":"named export",
       "entry-point":[
         "JestBuilder",

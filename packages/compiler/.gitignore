@@ -1,7 +1,7 @@
 
 ### Start Generated Section
-rollup.js
-rollup.d.ts
-rollup.esm.js
-rollup.esm.d.ts
+config/rollup.js
+config/rollup.d.ts
+config/rollup.esm.js
+config/rollup.esm.d.ts
 ### End Generated Section
