@@ -1,5 +1,5 @@
 {
-  "extends": "@irfanandriansyah1997/compiler/tsconfig.json",
+  "extends": "@irfanandriansyah1997/compiler/config/tsconfig.json",
   "compilerOptions": {
     "emitDeclarationOnly": false,
     "importHelpers": false,

@@ -29,7 +29,7 @@
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@irfanandriansyah1997/compiler": "5.1.0",
+    "@irfanandriansyah1997/compiler": "6.0.0",
     "@irfanandriansyah1997/eslint": "1.2.0",
     "@irfanandriansyah1997/jest": "^0.1.0",
     "@irfanandriansyah1997/scripts": "workspace:*",

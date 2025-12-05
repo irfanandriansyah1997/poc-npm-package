@@ -1,6 +1,6 @@
-import { rollupConfig } from "@irfanandriansyah1997/compiler/rollup.cjs";
+import { rollupConfig } from '@irfanandriansyah1997/compiler/config/rollup.cjs';
 
 export default rollupConfig({
   baseDir: __dirname,
-  minify: true,
+  minify: true
 });
