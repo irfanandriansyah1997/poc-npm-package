@@ -2,7 +2,7 @@
   "js-file":[
     {
       "file":"./dist/rollup/index",
-      "name":"rollup",
+      "name":"config/rollup",
       "export-kind":"named export",
       "entry-point":[
         "rollupConfig"
@@ -12,7 +12,7 @@
   "static-file":[
     {
       "file":"./dist/tsconfig/tsconfig.json",
-      "name":"tsconfig.json"
+      "name":"config/tsconfig.json"
     }
   ],
   "custom-config":[]
