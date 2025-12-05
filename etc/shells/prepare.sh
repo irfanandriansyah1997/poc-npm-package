@@ -21,4 +21,15 @@ EOF
   fi
 done
 
+rm -rf .npmrc
+cat <<EOF > .npmrc
+registry=https://registry.npmjs.org/
+@irfanandriansyah1997:registry=https://npm.pkg.github.com
+@tiket:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}
+
+# Prevent workspace packages from being linked - install from npm instead
+link-workspace-packages=false
+EOF
+
 echo "✅ Copy complete!"

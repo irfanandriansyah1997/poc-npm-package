@@ -129,6 +129,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-packages/**/.npmrc
-services/**/.npmrc
+.npmrc
 .tmp_staging
