@@ -1,5 +1,16 @@
 # @irfanandriansyah1997/compiler
 
+## 6.0.0
+
+### Major Changes
+
+- ### 🔧 Chores
+  - **ci**: fix minor bugs while release
+  - **semver**: bump version (#26)
+
+  ### ✨ Features
+  - **package**: create utils package and re-adjust exposes files on several packages (#27)
+
 ## 5.1.0
 
 ### Minor Changes
