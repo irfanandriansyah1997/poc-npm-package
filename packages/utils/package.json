@@ -1,10 +1,251 @@
 {
-  "name": "utils",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
+  "name": "@irfanandriansyah1997/utils",
+  "version": "0.0.1",
+  "description": "Shared utilities for use across all tiket aff ttd repositories.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irfanandriansyah1997/poc-npm-package.git",
+    "directory": "packages/utils"
+  },
+  "homepage": "https://github.com/irfanandriansyah1997/poc-npm-package/tree/main/packages/utils#readme",
+  "bugs": {
+    "url": "https://github.com/irfanandriansyah1997/poc-npm-package/issues"
+  },
+  "scripts": {
+    "build": "pnpm build:dec && pnpm build:ts",
+    "build:dec": "tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "build:ts": "node --max-old-space-size=8192 node_modules/rollup/dist/bin/rollup -c --bundleConfigAsCjs --silent",
+    "lint": "eslint",
+    "postbuild": "pkg-post-build --file-name=\"@irfanandriansyah1997/utils\"",
+    "prebuild": "pnpm run ts:patch && pnpm run sync:file && rm -rf dist",
+    "predev": "pnpm run ts:patch",
+    "sync:file": "pkg-sync-file --file-name=\"@irfanandriansyah1997/utils\"",
+    "test": "tix-aff-ttd-jest",
+    "ts:patch": "ts-patch install -s",
+    "type:check": "tsc --noEmit"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@irfanandriansyah1997/compiler": "^5.1.0",
+    "@irfanandriansyah1997/eslint": "1.2.0",
+    "@irfanandriansyah1997/jest": "^0.1.0",
+    "@irfanandriansyah1997/scripts": "workspace:*",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-swc": "^0.4.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.15.3",
+    "@swc/jest": "^0.2.39",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.19.1",
+    "@types/react": "^19.2.7",
+    "dompurify": "^3.3.0",
+    "error": "^10.4.0",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jest": "^29.2.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-sort-destructure-keys": "^2.0.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-typescript-sort-keys": "^3.3.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-watch-typeahead": "^2.2.2",
+    "prettier": "^3.7.4",
+    "prettier-2": "npm:prettier@^2",
+    "react": "^19.2.1",
+    "rollup": "^4.53.3",
+    "ts-patch": "^3.3.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1",
+    "typescript-transform-paths": "^3.5.5"
+  },
+  "files": [
+    "dist",
+    "utils/api.js",
+    "utils/api.d.ts",
+    "utils/api.esm.js",
+    "utils/api.esm.d.ts",
+    "utils/css.js",
+    "utils/css.d.ts",
+    "utils/css.esm.js",
+    "utils/css.esm.d.ts",
+    "utils/dom.js",
+    "utils/dom.d.ts",
+    "utils/dom.esm.js",
+    "utils/dom.esm.d.ts",
+    "utils/error.js",
+    "utils/error.d.ts",
+    "utils/error.esm.js",
+    "utils/error.esm.d.ts",
+    "utils/misc.js",
+    "utils/misc.d.ts",
+    "utils/misc.esm.js",
+    "utils/misc.esm.d.ts",
+    "utils/observer.js",
+    "utils/observer.d.ts",
+    "utils/observer.esm.js",
+    "utils/observer.esm.d.ts",
+    "utils/parse.js",
+    "utils/parse.d.ts",
+    "utils/parse.esm.js",
+    "utils/parse.esm.d.ts",
+    "utils/process.js",
+    "utils/process.d.ts",
+    "utils/process.esm.js",
+    "utils/process.esm.d.ts",
+    "utils/sanitize.js",
+    "utils/sanitize.d.ts",
+    "utils/sanitize.esm.js",
+    "utils/sanitize.esm.d.ts",
+    "types/error.js",
+    "types/error.d.ts",
+    "types/error.esm.js",
+    "types/error.esm.d.ts",
+    "types/react.js",
+    "types/react.d.ts",
+    "types/react.esm.js",
+    "types/react.esm.d.ts",
+    "types/utils.js",
+    "types/utils.d.ts",
+    "types/utils.esm.js",
+    "types/utils.esm.d.ts"
+  ],
+  "exports": {
+    "./utils/api": {
+      "import": "./utils/api.esm.js",
+      "require": "./utils/api.esm.js",
+      "types": "./utils/api.d.ts"
+    },
+    "./utils/api.cjs": {
+      "import": "./utils/api.js",
+      "require": "./utils/api.js",
+      "types": "./utils/api.d.ts"
+    },
+    "./utils/css": {
+      "import": "./utils/css.esm.js",
+      "require": "./utils/css.esm.js",
+      "types": "./utils/css.d.ts"
+    },
+    "./utils/css.cjs": {
+      "import": "./utils/css.js",
+      "require": "./utils/css.js",
+      "types": "./utils/css.d.ts"
+    },
+    "./utils/dom": {
+      "import": "./utils/dom.esm.js",
+      "require": "./utils/dom.esm.js",
+      "types": "./utils/dom.d.ts"
+    },
+    "./utils/dom.cjs": {
+      "import": "./utils/dom.js",
+      "require": "./utils/dom.js",
+      "types": "./utils/dom.d.ts"
+    },
+    "./utils/error": {
+      "import": "./utils/error.esm.js",
+      "require": "./utils/error.esm.js",
+      "types": "./utils/error.d.ts"
+    },
+    "./utils/error.cjs": {
+      "import": "./utils/error.js",
+      "require": "./utils/error.js",
+      "types": "./utils/error.d.ts"
+    },
+    "./utils/misc": {
+      "import": "./utils/misc.esm.js",
+      "require": "./utils/misc.esm.js",
+      "types": "./utils/misc.d.ts"
+    },
+    "./utils/misc.cjs": {
+      "import": "./utils/misc.js",
+      "require": "./utils/misc.js",
+      "types": "./utils/misc.d.ts"
+    },
+    "./utils/observer": {
+      "import": "./utils/observer.esm.js",
+      "require": "./utils/observer.esm.js",
+      "types": "./utils/observer.d.ts"
+    },
+    "./utils/observer.cjs": {
+      "import": "./utils/observer.js",
+      "require": "./utils/observer.js",
+      "types": "./utils/observer.d.ts"
+    },
+    "./utils/parse": {
+      "import": "./utils/parse.esm.js",
+      "require": "./utils/parse.esm.js",
+      "types": "./utils/parse.d.ts"
+    },
+    "./utils/parse.cjs": {
+      "import": "./utils/parse.js",
+      "require": "./utils/parse.js",
+      "types": "./utils/parse.d.ts"
+    },
+    "./utils/process": {
+      "import": "./utils/process.esm.js",
+      "require": "./utils/process.esm.js",
+      "types": "./utils/process.d.ts"
+    },
+    "./utils/process.cjs": {
+      "import": "./utils/process.js",
+      "require": "./utils/process.js",
+      "types": "./utils/process.d.ts"
+    },
+    "./utils/sanitize": {
+      "import": "./utils/sanitize.esm.js",
+      "require": "./utils/sanitize.esm.js",
+      "types": "./utils/sanitize.d.ts"
+    },
+    "./utils/sanitize.cjs": {
+      "import": "./utils/sanitize.js",
+      "require": "./utils/sanitize.js",
+      "types": "./utils/sanitize.d.ts"
+    },
+    "./types/error": {
+      "import": "./types/error.esm.js",
+      "require": "./types/error.esm.js",
+      "types": "./types/error.d.ts"
+    },
+    "./types/error.cjs": {
+      "import": "./types/error.js",
+      "require": "./types/error.js",
+      "types": "./types/error.d.ts"
+    },
+    "./types/react": {
+      "import": "./types/react.esm.js",
+      "require": "./types/react.esm.js",
+      "types": "./types/react.d.ts"
+    },
+    "./types/react.cjs": {
+      "import": "./types/react.js",
+      "require": "./types/react.js",
+      "types": "./types/react.d.ts"
+    },
+    "./types/utils": {
+      "import": "./types/utils.esm.js",
+      "require": "./types/utils.esm.js",
+      "types": "./types/utils.d.ts"
+    },
+    "./types/utils.cjs": {
+      "import": "./types/utils.js",
+      "require": "./types/utils.js",
+      "types": "./types/utils.d.ts"
+    }
+  },
+  "peerDependencies": {
+    "dompurify": "^3.3.0",
+    "react": "^19.2.1"
+  }
 }
